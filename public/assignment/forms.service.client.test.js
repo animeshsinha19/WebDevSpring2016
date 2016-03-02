@@ -23,7 +23,7 @@
         function createFormForUser(userId, form, callback) {
             var newForm = {
                 "_id": (new Date).getTime(),
-                "title": form,
+                "title": form.title,
                 "userId": userId
             };
             allForms.push(newForm);
@@ -37,7 +37,8 @@
                 if (allForms[i].userId == userId) {
                     var formdetails = {
                         "_id": allForms[i]._id,
-                        "title": allForms[i].title
+                        "title": allForms[i].title,
+                        "userId": userId
                     };
                     userForms.push(formdetails);
                 }
@@ -45,12 +46,39 @@
             callback(userForms);
         }
 
-        function deleteFormById() {
+        function deleteFormById(formId, callback) {
+
+            var mainindex, userid;
+
+            for (var i = 0; i < allForms.length; i++) {
+                if (allForms[i]._id == formId) {
+                    mainindex = i;
+                    userid = allForms[i].userId;
+                    break;
+                }
+            }
+
+            allForms.splice(mainindex, 1);
+
+            var newForms;
+            findAllFormsForUser(
+                userid,
+                function ($response) {
+                    newForms = $response;
+                });
+            callback(newForms);
+
 
         }
 
-        function updateFormById() {
-
+        function updateFormById(formId, newForm, callback) {
+            for (var i = 0; i < allForms.length; i++) {
+                if (allForms[i]._id == formId) {
+                    allForms[i].title = newForm.title;
+                    callback(allForms[i]);
+                    break;
+                }
+            }
         }
 
     }
