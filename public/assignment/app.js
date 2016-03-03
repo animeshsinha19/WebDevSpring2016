@@ -1,12 +1,5 @@
 (function (){
     angular
-        .module("FormBuilderApp",["ngRoute"])
-        .controller("MainController",MainController);
+        .module("FormBuilderApp",["ngRoute"]);
 
-
-
-    function MainController($scope,$location) {
-        $scope.$location = $location;
-
-    }
 })();

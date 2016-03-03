@@ -42,15 +42,16 @@
 
 
         function findUserByCredentials(username, password, callback) {
-            var flag = false;
-            for(var i=0 ; i<users.length ; i++) {
-                if(users[i].username == username && users[i].password == password) {
+            var flag = false; //,admin = false;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username == username && users[i].password == password) {
                     flag = true;
+
                     callback(users[i]);
                     break;
                 }
             }
-            if(!flag) {
+            if (!flag) {
                 callback(null);
             }
         }
@@ -62,8 +63,8 @@
         function createUser(user, callback) {
             var newUser = {
                 _id: (new Date).getTime(),
-                firstname: "",
-                lastname: "",
+                firstName: "",
+                lastName: "",
                 username: user.name,
                 password: user.password,
                 roles: [],
@@ -77,19 +78,44 @@
 
         function deleteUserById(userId, callback) {
 
-        }
+            console.log("in delete");
 
-        function updateUser(userId, user, callback) {
             for (var newuser in users) {
                 if (newuser._id == userId) {
                     var index = users.indexOf(newuser);
                     users.splice(index, 1);
-                    users.push(user);
-                    callback(user);
+                    callback(users);
+                    break;
                 }
             }
 
         }
 
+        function updateUser(userId, user, callback) {
+
+            deleteUserById(userId, function ($response) {
+                users = $response;
+            });
+
+            console.log(users);
+
+            callback(user);
+
+        }
+
+        //function updateUser(userId, user, callback) {
+        //    for (var newuser in users) {
+        //        if (newuser._id == userId) {
+        //            var index = users.indexOf(newuser);
+        //            users.splice(index, 1);
+        //            users.push(user);
+        //            callback(user);
+        //            break;
+        //        }
+        //
+        //
+        //    }
+        //
+        //}
     }
 })();

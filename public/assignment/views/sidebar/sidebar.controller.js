@@ -1,3 +1,10 @@
-/**
- * Created by Animesh on 2/25/16.
- */
+(function () {
+    angular
+        .module("FormBuilderApp")
+        .controller("SidebarController", SidebarController);
+
+    function SidebarController() {
+
+    }
+
+})();

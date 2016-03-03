@@ -1,3 +1,13 @@
-/**
- * Created by Animesh on 2/25/16.
- */
+(function (){
+    angular
+        .module("FormBuilderApp")
+        .controller("HeaderController",HeaderController);
+
+    function HeaderController($rootScope,$scope) {
+        $scope.logoutUser = logoutUser;
+
+        function logoutUser() {
+            $rootScope.newUser = null;
+        }
+    }
+})();
