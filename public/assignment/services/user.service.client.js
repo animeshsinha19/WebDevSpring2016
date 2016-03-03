@@ -57,18 +57,19 @@
         }
 
         function findAllUsers(callback) {
+
             callback(users);
         }
 
         function createUser(user, callback) {
             var newUser = {
-                _id: (new Date).getTime(),
-                firstName: "",
-                lastName: "",
-                username: user.name,
-                password: user.password,
-                roles: [],
-                email: user.email
+                "_id": (new Date).getTime(),
+                "firstName": "",
+                "lastName": "",
+                "username": user.name,
+                "password": user.password,
+                "roles": [],
+                "email": user.email
             };
             users.push(newUser);
 
@@ -78,12 +79,9 @@
 
         function deleteUserById(userId, callback) {
 
-            console.log("in delete");
-
-            for (var newuser in users) {
-                if (newuser._id == userId) {
-                    var index = users.indexOf(newuser);
-                    users.splice(index, 1);
+            for (var i = 0; i < users.length; i++) {
+                if (users[i]._id == userId) {
+                    users.splice(i, 1);
                     callback(users);
                     break;
                 }
@@ -92,30 +90,24 @@
         }
 
         function updateUser(userId, user, callback) {
+            //console.log("before:");
+            //console.log(users);
 
             deleteUserById(userId, function ($response) {
                 users = $response;
+
             });
 
-            console.log(users);
+
+            users.push(user);
+
+            //console.log("after:");
+            //console.log(users);
 
             callback(user);
 
         }
 
-        //function updateUser(userId, user, callback) {
-        //    for (var newuser in users) {
-        //        if (newuser._id == userId) {
-        //            var index = users.indexOf(newuser);
-        //            users.splice(index, 1);
-        //            users.push(user);
-        //            callback(user);
-        //            break;
-        //        }
-        //
-        //
-        //    }
-        //
-        //}
+
     }
 })();

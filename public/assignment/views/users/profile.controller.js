@@ -17,19 +17,22 @@
 
 
         function update() {
-            newUser.username = $scope.username;
-            newUser.password = $scope.password;
-            newUser.email = $scope.email;
-
-            newUser.firstName = $scope.firstname;
-            newUser.lastName = $scope.lastname;
+            var updatedUser = {
+                "_id": $rootScope.newUser._id,
+                "username": $scope.username,
+                "password": $scope.password,
+                "email": $scope.email,
+                "firstName": $scope.firstname,
+                "lastName": $scope.lastname
+            };
 
             UserService.updateUser(
-                newUser._id,
-                newUser,
+                updatedUser._id,
+                updatedUser,
                 function ($response) {
                     $rootScope.newUser = $response;
                 });
+
 
         }
     }
