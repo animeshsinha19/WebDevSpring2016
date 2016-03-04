@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
     angular
         .module("FormBuilderApp")
         .config(configuration);
@@ -21,7 +22,7 @@
                 controller: "ProfileController"
             })
             .when("/admin", {
-                templateUrl: "views/admin/admin.view.html",
+                templateUrl: "views/admin/admin.view.html"
 
             })
             .when("/forms", {
