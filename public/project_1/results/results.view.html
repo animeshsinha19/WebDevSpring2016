@@ -1,0 +1,36 @@
+
+<h3>Search Results</h3>
+
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Speciality</th>
+            <th>Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="restaurant in restaurants">
+            <td>
+                <img ng-src="{{restaurant.image_url}}"/>
+                <br><br>
+                <!--<a href="#/detail/{{movie.imdbID}}">-->
+                    <!--{{movie.Title}}</a>-->
+                <a href="#">
+                    {{restaurant.name}}</a>
+            </td>
+            <!--<td ng-repeat="category in restaurant.categories">-->
+                <!--{{category}}-->
+            <td>
+                {{restaurant.categories[0][0]}}
+            </td>
+            <td>
+                <img  ng-src="{{restaurant.rating_img_url_large}}"/>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -16,6 +16,14 @@
                 templateUrl: "search/maps.view.html",
                 controller: "mapsController"
             })
+            .when("/results", {
+                templateUrl: "results/results.view.html",
+                controller: "resultsController"
+            })
+            .when("/results/:place", {
+                templateUrl: "results/results.view.html",
+                controller: "resultsController"
+            })
             //.when("/search/:title", {
             //    templateUrl: "search/search.view.html",
             //    controller: "searchController"
@@ -25,7 +33,7 @@
             //    controller: "detailController"
             //})
             .otherwise({
-                redirectTo: "/maps"
+                redirectTo: "/search"
             });
     }
 })();
