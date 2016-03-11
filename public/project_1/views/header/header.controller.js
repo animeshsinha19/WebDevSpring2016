@@ -9,6 +9,9 @@
 
         function logoutUser() {
             $rootScope.newUser = null;
+            if($rootScope.allUsers) {
+                $rootScope.allUsers = null;
+            }
         }
     }
 })();

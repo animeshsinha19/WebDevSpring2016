@@ -47,13 +47,16 @@
             for (var i = 0; i < users.length; i++) {
                 if (users[i].username == username && users[i].password == password) {
                     flag = true;
+                    if(users[i].roles.indexOf('admin')>=0)
+                        callback(users[i],users);
+                    else
+                        callback(users[i],"NA");
 
-                    callback(users[i]);
                     break;
                 }
             }
             if (!flag) {
-                callback(null);
+                callback(null,null);
             }
         }
 

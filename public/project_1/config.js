@@ -40,6 +40,10 @@
                 templateUrl: "views/users/register.view.html",
                 controller: "registerController"
             })
+            .when("/admin", {
+                templateUrl: "views/users/admin.view.html",
+                controller: "adminController"
+            })
             //.when("/search/:title", {
             //    templateUrl: "search/search.view.html",
             //    controller: "searchController"

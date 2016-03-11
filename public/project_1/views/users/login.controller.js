@@ -13,13 +13,18 @@
             UserService.findUserByCredentials(
                 $scope.username,
                 $scope.password,
-                function ($response) {
-                   user = $response;
-                    $rootScope.newUser = user;
+                function ($responseUser, $admin) {
+                    user = $responseUser;
+                    if ($admin != "NA") {
+                        $rootScope.newUser = user;
+                        $rootScope.allUsers = $admin;
+                    } else {
+                        $rootScope.newUser = user;
+                    }
                 });
 
 
-            $location.url("/profile");
+            $location.url("/search");
 
         }
 
