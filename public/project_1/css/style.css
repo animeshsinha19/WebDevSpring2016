@@ -1,0 +1,10 @@
+.glyphicon {
+    font-size: x-large;
+}
+.glyphicon-triangle-bottom {
+    font-size: small;
+}
+
+.form-horizontal .form-group label {
+    text-align: left;
+}

@@ -3,7 +3,7 @@
         .module("ProjectApp")
         .controller("adminController",adminController);
 
-    function adminController($rootScope,$scope) {
+    function adminController($rootScope,$scope,UserService) {
 
         var userlist = [];
         var allUsers = $rootScope.allUsers;
