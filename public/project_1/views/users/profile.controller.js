@@ -4,7 +4,7 @@
         .module("ProjectApp")
         .controller("profileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, UserService) {
+    function ProfileController($scope, $rootScope, UserService, $location) {
 
         $scope.update = update;
 
@@ -32,9 +32,10 @@
                 updatedUser,
                 function ($response) {
                     $rootScope.newUser = $response;
+
                 });
 
-
+            $location.url("/search");
         }
     }
 })();

@@ -94,19 +94,30 @@
             //console.log("before:");
             //console.log(users);
 
-            deleteUserById(userId, function ($response) {
-                users = $response;
+            //deleteUserById(userId, function ($response) {
+            //    users = $response;
+            //
+            //});
+            //
 
-            });
-
-
-            users.push(user);
+            //users.push(user);
 
             //console.log("after:");
             //console.log(users);
 
-            callback(user);
+            //callback(user);
 
+            for(var i=0;i<users.length;i++) {
+                if(users[i]._id == userId) {
+                    users[i].username = user.username;
+                    users[i].password = user.password;
+                    users[i].email = user.email;
+                    users[i].firstName = user.firstName;
+                    users[i].lastName = user.lastName;
+                    callback(users[i]);
+                    break;
+                }
+            }
         }
 
 

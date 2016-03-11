@@ -21,6 +21,7 @@
                     } else {
                         $rootScope.newUser = user;
                     }
+
                 });
 
 
