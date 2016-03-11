@@ -33,11 +33,11 @@
                 controller: "loginController"
             })
             .when("/profile", {
-                templateUrl: "views/results/profile.view.html",
+                templateUrl: "views/users/profile.view.html",
                 controller: "profileController"
             })
             .when("/register", {
-                templateUrl: "views/results/register.view.html",
+                templateUrl: "views/users/register.view.html",
                 controller: "registerController"
             })
             //.when("/search/:title", {

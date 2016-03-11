@@ -11,7 +11,8 @@
 
                 $scope.locationCoords = response.location.coordinate;
                 $scope.data = response;
-                console.log(response);
+                $scope.address = response.location.display_address;
+                console.log(response.location.display_address);
             });
 
 

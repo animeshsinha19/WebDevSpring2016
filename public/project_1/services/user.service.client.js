@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular
-        .module("FormBuilderApp")
+        .module("ProjectApp")
         .factory("UserService", UserService);
 
     function UserService() {
@@ -10,7 +10,7 @@
             [
                 {
                     "_id": 123, "firstName": "Alice", "lastName": "Wonderland",
-                    "username": "alice", "password": "alice", "roles": ["student"]
+                    "username": "alice", "password": "alice", "roles": ["normal"]
                 },
                 {
                     "_id": 234, "firstName": "Bob", "lastName": "Hope",
@@ -18,15 +18,15 @@
                 },
                 {
                     "_id": 345, "firstName": "Charlie", "lastName": "Brown",
-                    "username": "charlie", "password": "charlie", "roles": ["faculty"]
+                    "username": "charlie", "password": "charlie", "roles": ["normal"]
                 },
                 {
                     "_id": 456, "firstName": "Dan", "lastName": "Craig",
-                    "username": "dan", "password": "dan", "roles": ["faculty", "admin"]
+                    "username": "dan", "password": "dan", "roles": ["normal", "admin"]
                 },
                 {
                     "_id": 567, "firstName": "Edward", "lastName": "Norton",
-                    "username": "ed", "password": "ed", "roles": ["student"]
+                    "username": "ed", "password": "ed", "roles": ["normal"]
                 }
             ];
 
