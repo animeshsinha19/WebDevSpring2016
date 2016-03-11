@@ -94,19 +94,6 @@
         }
 
         function updateUser(userId, user, callback) {
-            //console.log("before:");
-            //console.log(users);
-
-            //deleteUserById(userId, function ($response) {
-            //    users = $response;
-            //
-            //});
-            //
-            //
-            //users.push(user);
-
-            //console.log("after:");
-            //console.log(users);
 
             for(var i=0;i<users.length;i++) {
                 if(users[i]._id == userId) {

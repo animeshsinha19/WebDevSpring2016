@@ -24,8 +24,11 @@
 
                 });
 
-
-            $location.url("/search");
+            if ($rootScope.newUser)
+                $location.url("/search");
+            else {
+                $scope.error = "Invalid username or password";
+            }
 
         }
 
