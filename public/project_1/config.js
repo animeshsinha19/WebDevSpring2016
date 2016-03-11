@@ -9,20 +9,36 @@
             //    templateUrl: "home/home.view.html"
             //})
             .when("/search", {
-                templateUrl: "search/search.view.html",
+                templateUrl: "views/search/search.view.html",
                 controller: "searchController"
             })
             .when("/maps", {
-                templateUrl: "search/maps.view.html",
+                templateUrl: "views/search/maps.view.html",
                 controller: "mapsController"
             })
             .when("/results", {
-                templateUrl: "results/results.view.html",
+                templateUrl: "views/results/results.view.html",
                 controller: "resultsController"
             })
             .when("/results/:place", {
-                templateUrl: "results/results.view.html",
+                templateUrl: "views/results/results.view.html",
                 controller: "resultsController"
+            })
+            .when("/details/:id", {
+                templateUrl: "views/details/details.view.html",
+                controller: "detailsController"
+            })
+            .when("/login", {
+                templateUrl: "views/users/login.view.html",
+                controller: "loginController"
+            })
+            .when("/profile", {
+                templateUrl: "views/results/profile.view.html",
+                controller: "profileController"
+            })
+            .when("/register", {
+                templateUrl: "views/results/register.view.html",
+                controller: "registerController"
             })
             //.when("/search/:title", {
             //    templateUrl: "search/search.view.html",

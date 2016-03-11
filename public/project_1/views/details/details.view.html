@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-xs-6">
+
+        <div class="row">
+            <div class="col-xs-4">
+                <img ng-src="{{data.image_url}}">
+                <br><br>
+                <h4>{{data.name}}</h4>
+            </div>
+            <div class="col-xs-8">
+                <div class="row">
+                    <h5>{{data.display_phone}}</h5>
+                </div>
+                <div class="row">
+                    <img ng-src="{{data.rating_img_url_large}}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {{data.reviews[0].excerpt}}
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <ng-map center="[{{locationCoords.latitude}}, {{locationCoords.longitude}}]">
+            <marker position="[{{locationCoords.latitude}}, {{locationCoords.longitude}}]"
+                    title="Restaurant" centered="true"></marker>
+
+        </ng-map>
+    </div>
+</div>
+
+
+<!--image_url-->
+<!--name-->
+<!--display_phone-->
+<!--rating_img_url_large-->
+<!--reviews[0].excerpt-->

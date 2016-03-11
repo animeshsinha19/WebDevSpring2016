@@ -9,8 +9,8 @@
 
 
         var api = {
-            searchByPlace: searchByPlace
-            //
+            searchByPlace: searchByPlace,
+            searchByBusinessId: searchByBusinessId
             //searchByTerm: searchByTerm,
             //
             //searchByTermAndPlace: searchByTermAndPlace,
@@ -26,6 +26,32 @@
             return result;
         }
 
+        function searchByBusinessId(id, callback) {
+            var method = "GET";
+            var url = "https://api.yelp.com/v2/business/" + id + "?callback=JSON_CALLBACK";
+            var params = {
+                callback: 'angular.callbacks._0',
+                oauth_consumer_key: 'GTUFbbnSYk51hEdYTTbgbg',
+                oauth_token: 'AWBvOu3Gglu1eaVbIwZbuIatXsQAYxad',
+                oauth_signature_method: "HMAC-SHA1",
+                oauth_timestamp: new Date().getTime(),
+                oauth_nonce: randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+
+            };
+            var consumerSecret = 'G4WUkT6KRsMuNiXixWgmE32d0p0';
+            var tokenSecret = '7PZPsVStdc_YPPLCu6bMzsqNlCA';
+            var signature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, {
+                encodeSignature: false
+            });
+
+            //put signature in params
+            params.oauth_signature = signature;
+
+            $http.jsonp(url, {
+                params: params
+            }).success(callback);
+        }
+
         function searchByPlace(search_term, callback) {
 
             var deferred = $q.defer();
@@ -37,7 +63,7 @@
             params = {
                 callback: 'angular.callbacks._0',
                 location: search_term,
-                limit: 10,
+                limit: 20,
                 oauth_consumer_key: 'GTUFbbnSYk51hEdYTTbgbg',
                 oauth_token: 'AWBvOu3Gglu1eaVbIwZbuIatXsQAYxad',
                 oauth_signature_method: "HMAC-SHA1",

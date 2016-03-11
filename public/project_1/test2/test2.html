@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="ngMap">
+<head>
+    <title>Simle Map</title>
+    <meta name="description" content="Simple Map">
+    <meta name="keywords" content="ng-map,AngularJS,center">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="ng-map.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA520Mt0BU6AOBchrD112BR3jTZ4lDigfI"></script>
+
+
+
+
+</head>
+
+<body>
+<ng-map zoom="16" center="[40.74, -74.18]">
+    <marker position="[42.3645799, -71.05344]" title="Restaurant" animation="Animation.BOUNCE" centered="true"></marker>
+</ng-map>
+</body>
+</html>

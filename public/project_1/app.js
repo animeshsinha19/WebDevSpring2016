@@ -1,4 +1,4 @@
 (function () {
     angular
-        .module("ProjectApp",["ngRoute"]);
+        .module("ProjectApp",["ngRoute","ngMap"]);
 })();
