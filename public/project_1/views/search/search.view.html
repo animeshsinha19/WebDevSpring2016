@@ -1,9 +1,22 @@
-<h2>Search for a restaurant</h2>
+<h1 class="page-header">Search for a restaurant</h1>
+<form class="form-horizontal">
+    <div class="form-group">
 
-<input class="form-control" ng-model="place">
+        <div class="col-sm-7">
 
-<br>
+            <input ng-model="place" type="text" class="form-control" id="place" placeholder="city.. like Boston">
 
-<button ng-click="search(place)" class=" btn btn-primary btn-block">
-    Search
-</button>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-sm-7">
+
+            <button ng-click="search(place)" class="btn btn-block btn-primary">Search</button>
+
+        </div>
+    </div>
+
+</form>
