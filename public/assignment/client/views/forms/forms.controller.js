@@ -6,33 +6,46 @@
 
     function FormController($scope, $rootScope, FormService) {
 
+        var vm = this;
 
-        if ($rootScope.newUser)
-            FormService.findAllFormsForUser(
-                $rootScope.newUser._id,
-                function ($response) {
-                    $scope.forms = $response;
-                });
+        function init() {
+            if ($rootScope.newUser) {
+                FormService
+                    .findAllFormsForUser($rootScope.newUser._id)
+                    .then(function (response) {
+                        vm.forms = response.data;
+                        //console.log(vm.forms);
+
+                    });
 
 
-        $scope.addForm = addForm;
-        $scope.updateForm = updateForm;
-        $scope.deleteForm = deleteForm;
-        $scope.selectForm = selectForm;
+            }
+
+        }
+
+        init();
+
+
+        vm.addForm = addForm;
+        vm.updateForm = updateForm;
+        vm.deleteForm = deleteForm;
+        vm.selectForm = selectForm;
 
 
         function addForm() {
             var form = {
-                "title": $scope.formname,
+                "title": vm.formname,
                 "userId": $rootScope.newUser._id
             };
             if (form.title)
-                FormService.createFormForUser(form.userId, form,
-                    function ($response) {
-                        $scope.forms.push($response);
+                FormService
+                    .createFormForUser(form.userId, form)
+                    .then(function (response) {
+                        vm.forms = response.data;
+                        //console.log(vm.forms);
                     });
 
-            $scope.formname="";
+            vm.formname = "";
         }
 
         function updateForm() {

@@ -18,7 +18,7 @@
                     user.password)
 
                 .then(function (response) {
-                    console.log(response);
+                    //console.log(response);
                     if(response.data) {
                         $rootScope.newUser = response.data;
                         $location.url("/profile");

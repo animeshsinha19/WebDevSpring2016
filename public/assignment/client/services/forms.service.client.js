@@ -4,12 +4,12 @@
         .module("FormBuilderApp")
         .factory("FormService", FormService);
 
-    function FormService() {
-        var allForms = [
-            {"_id": "000", "title": "Contacts", "userId": 123},
-            {"_id": "010", "title": "ToDo", "userId": 123},
-            {"_id": "020", "title": "CDs", "userId": 234}
-        ];
+    function FormService($http) {
+        //var allForms = [
+        //    {"_id": "000", "title": "Contacts", "userId": 123},
+        //    {"_id": "010", "title": "ToDo", "userId": 123},
+        //    {"_id": "020", "title": "CDs", "userId": 234}
+        //];
 
 
         var api = {
@@ -21,30 +21,12 @@
 
         return api;
 
-        function createFormForUser(userId, form, callback) {
-            var newForm = {
-                "_id": (new Date).getTime(),
-                "title": form.title,
-                "userId": userId
-            };
-            allForms.push(newForm);
-            callback(newForm);
+        function createFormForUser(userId, form) {
+            return $http.post("/api/assignment/user/"+userId+"/form",form);
         }
 
-        function findAllFormsForUser(userId, callback) {
-
-            var userForms = [];
-            for (var i = 0; i < allForms.length; i++) {
-                if (allForms[i].userId == userId) {
-                    var formdetails = {
-                        "_id": allForms[i]._id,
-                        "title": allForms[i].title,
-                        "userId": userId
-                    };
-                    userForms.push(formdetails);
-                }
-            }
-            callback(userForms);
+        function findAllFormsForUser(userId) {
+            return $http.get("/api/assignment/user/"+userId+"/form");
         }
 
         function deleteFormById(formId, callback) {

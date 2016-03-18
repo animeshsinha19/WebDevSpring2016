@@ -21,21 +21,21 @@
         "label": "Address",
         "type": "TEXT",
         "placeholder": "Address"
-      }
-    ]
-  },
-  {
-    "_id": "444",
-    "label": "State",
-    "type": "OPTIONS",
-    "options": [
-      {
-        "label": "Massachussetts",
-        "value": "MA"
       },
       {
-        "label": "New Hampshire",
-        "value": "NH"
+        "_id": "444",
+        "label": "State",
+        "type": "OPTIONS",
+        "options": [
+          {
+            "label": "Massachussetts",
+            "value": "MA"
+          },
+          {
+            "label": "New Hampshire",
+            "value": "NH"
+          }
+        ]
       },
       {
         "_id": "555",

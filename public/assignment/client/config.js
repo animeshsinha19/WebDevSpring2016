@@ -30,10 +30,13 @@
             })
             .when("/forms", {
                 templateUrl: "views/forms/forms.view.html",
-                controller: "FormController"
+                controller: "FormController",
+                controllerAs: "model"
             })
-            .when("/form-fields", {
-                templateUrl: "views/forms/form-fields.view.html"
+            .when("/fields", {
+                templateUrl: "views/forms/fields.view.test.html",
+                controller: "FieldController",
+                controllerAs: "model"
 
             })
             .otherwise({
