@@ -4,31 +4,7 @@
         .module("FormBuilderApp")
         .factory("UserService", UserService);
 
-    function UserService() {
-
-        var users =
-            [
-                {
-                    "_id": 123, "firstName": "Alice", "lastName": "Wonderland",
-                    "username": "alice", "password": "alice", "roles": ["student"]
-                },
-                {
-                    "_id": 234, "firstName": "Bob", "lastName": "Hope",
-                    "username": "bob", "password": "bob", "roles": ["admin"]
-                },
-                {
-                    "_id": 345, "firstName": "Charlie", "lastName": "Brown",
-                    "username": "charlie", "password": "charlie", "roles": ["faculty"]
-                },
-                {
-                    "_id": 456, "firstName": "Dan", "lastName": "Craig",
-                    "username": "dan", "password": "dan", "roles": ["faculty", "admin"]
-                },
-                {
-                    "_id": 567, "firstName": "Edward", "lastName": "Norton",
-                    "username": "ed", "password": "ed", "roles": ["student"]
-                }
-            ];
+    function UserService($http) {
 
 
         var api = {
@@ -62,20 +38,9 @@
             callback(users);
         }
 
-        function createUser(user, callback) {
-            var newUser = {
-                "_id": (new Date).getTime(),
-                "firstName": "",
-                "lastName": "",
-                "username": user.name,
-                "password": user.password,
-                "roles": [],
-                "email": user.email
-            };
-            users.push(newUser);
+        function createUser(user) {
 
-            callback(newUser);
-
+            return $http.post("/api/assignment/user", user);
         }
 
         function deleteUserById(userId, callback) {
@@ -107,8 +72,8 @@
 
             //callback(user);
 
-            for(var i=0;i<users.length;i++) {
-                if(users[i]._id == userId) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i]._id == userId) {
                     users[i].username = user.username;
                     users[i].password = user.password;
                     users[i].email = user.email;

@@ -1,10 +1,12 @@
-// pass db and mongoose reference to server side application module
-module.exports = function(app, db, mongoose) {
 
-    // pass db and mongoose reference to model
-    var userModel    = require("./models/user.model.server.js")(db, mongoose);
-    var movieModel   = require("./models/movie.model.server.js")(db, mongoose);
+module.exports = function(app) {
 
-    var userService  = require("./services/user.service.server.js") (app, movieModel, userModel);
-    var movieService = require("./services/movie.service.server.js")(app, movieModel, userModel);
-}
+    //// pass db and mongoose reference to model
+    var userModel    = require("./models/user.model.server.js")();
+    var formModel   = require("./models/form.model.server.js")();
+    //
+    var userService  = require("./services/user.service.server.js") (app, userModel);
+    var formService = require("./services/form.service.server.js") (app, formModel);
+    var fieldService = require("./services/field.service.server.js") (app, formModel);
+
+};
