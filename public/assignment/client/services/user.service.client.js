@@ -55,34 +55,10 @@
 
         }
 
-        function updateUser(userId, user, callback) {
-            //console.log("before:");
-            //console.log(users);
+        function updateUser(userId, user) {
 
-            //deleteUserById(userId, function ($response) {
-            //    users = $response;
-            //
-            //});
-            //
+            return $http.put("/api/assignment/user/" + userId, user);
 
-            //users.push(user);
-
-            //console.log("after:");
-            //console.log(users);
-
-            //callback(user);
-
-            for (var i = 0; i < users.length; i++) {
-                if (users[i]._id == userId) {
-                    users[i].username = user.username;
-                    users[i].password = user.password;
-                    users[i].email = user.email;
-                    users[i].firstName = user.firstName;
-                    users[i].lastName = user.lastName;
-                    callback(users[i]);
-                    break;
-                }
-            }
         }
 
 

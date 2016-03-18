@@ -86,7 +86,8 @@ module.exports = function () {
                 mockUsers[i].email = user.email;
                 mockUsers[i].firstName = user.firstName;
                 mockUsers[i].lastName = user.lastName;
-                return mockUsers[i];
+                //console.log("inside update");
+                return mockUsers;
 
             }
         }

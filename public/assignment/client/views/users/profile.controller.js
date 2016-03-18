@@ -4,34 +4,42 @@
         .module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($scope, $rootScope, UserService) {
+    function ProfileController($rootScope, UserService) {
 
-        $scope.update = update;
+        var vm = this;
 
-        var newUser = $rootScope.newUser;
+        vm.update = update;
 
-        $scope.username = newUser.username;
-        $scope.password = newUser.password;
-        $scope.email = newUser.email;
-        $scope.firstname = newUser.firstName;
-        $scope.lastname = newUser.lastName;
+        function init() {
+            var newUser = $rootScope.newUser;
+            //console.log(newUser);
+            //console.log($rootScope.newUser._id);
+            vm.username = newUser.username;
+            vm.password = newUser.password;
+            vm.email = newUser.email;
+            vm.firstname = newUser.firstName;
+            vm.lastname = newUser.lastName;
+        }
 
+        init();
 
-        function update() {
+        function update(user) {
             var updatedUser = {
                 "_id": $rootScope.newUser._id,
-                "username": $scope.username,
-                "password": $scope.password,
-                "email": $scope.email,
-                "firstName": $scope.firstname,
-                "lastName": $scope.lastname
+                "username": user.username,
+                "password": user.password,
+                "email": user.email,
+                "firstName": user.firstname,
+                "lastName": user.lastname
             };
 
-            UserService.updateUser(
-                updatedUser._id,
-                updatedUser,
-                function ($response) {
-                    $rootScope.newUser = $response;
+            UserService
+                .updateUser(
+                    updatedUser._id,
+                    updatedUser)
+                .then(function (response) {
+                    $rootScope.newUser = response.data[response.data.length-1];
+                    console.log(response.data[response.data.length-1]);
                 });
 
 
