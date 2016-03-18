@@ -1,7 +1,6 @@
 var mockUsers = require("./user.mock.json");
 
 
-
 module.exports = function () {
 
     var api = {
@@ -9,11 +8,30 @@ module.exports = function () {
         findAllUsers: findAllUsers,
         createUser: createUser,
         deleteUserById: deleteUserById,
-        updateUser: updateUser
+        updateUser: updateUser,
+        findUserById: findUserById,
+        findUserByUsername: findUserByUsername
     };
 
     return api;
 
+    function findUserByUsername(username) {
+        for(var i=0;i<mockUsers.length;i++) {
+            if(mockUsers[i].username == username) {
+                return mockUsers[i];
+            }
+        }
+        return null;
+    }
+
+    function findUserById(userId) {
+        for (var i = 0; i < mockUsers.length; i++) {
+            if (mockUsers[i]._id == userId) {
+                return mockUsers[i];
+            }
+        }
+        return null;
+    }
 
     function findUserByCredentials(username, password) {
 

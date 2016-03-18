@@ -38,8 +38,8 @@
                     updatedUser._id,
                     updatedUser)
                 .then(function (response) {
-                    $rootScope.newUser = response.data[response.data.length-1];
-                    console.log(response.data[response.data.length-1]);
+                    $rootScope.newUser = updatedUser;
+                    //console.log(response.data[response.data.length-1]);
                 });
 
 

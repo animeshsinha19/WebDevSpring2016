@@ -5,9 +5,9 @@ module.exports = function (app, userModel) {
 
     app.get("/api/assignment/user/:id", getUserById);
 
-    app.get("/api/assignment/user?username=username", getUserByUsername);
+    app.get("/api/assignment/user?username=:username", getUserByUsername);
 
-    app.get("/api/assignment/user?username=alice&password=wonderland", getUserByCredentials);
+    app.get("/api/assignment/user?username=:username&password=:password", getUserByCredentials);
 
     app.put("/api/assignment/user/:id", updateUserById);
 
@@ -22,33 +22,51 @@ module.exports = function (app, userModel) {
 
     }
 
-    function getAllUsers() {
+    function getAllUsers(req, res) {
+        if (req.query.username && req.query.password) {
+            getUserByCredentials(req, res);
+        } else if (req.query.username) {
+            getUserByUsername(req, res);
+        } else {
+            res.json(userModel.findAllUsers());
+        }
 
     }
 
-    function getUserById() {
+    function getUserById(req, res) {
+        var userId = req.params.id;
+        var user = userModel.findUserById(userId);
+        res.json(user);
+    }
+
+    function getUserByUsername(req, res) {
+        var username = req.query.username;
+        var foundUser = userModel.findUserByUsername(username);
+        res.json(foundUser);
+    }
+
+    function getUserByCredentials(req, res) {
+        var username = req.query.username;
+        var password = req.query.password;
+
+        var foundUser = userModel.findUserByCredentials(username,password);
+        res.json(foundUser);
 
     }
 
-    function getUserByUsername() {
-
-    }
-
-    function getUserByCredentials() {
-
-    }
-
-    function updateUserById(req,res) {
+    function updateUserById(req, res) {
         var userId = req.params.id;
         var user = req.body;
 
-        var newAllUsers = userModel.updateUser(userId,user);
+        var newAllUsers = userModel.updateUser(userId, user);
 
         res.json(newAllUsers);
 
     }
 
-    function deleteUserById() {
-
+    function deleteUserById(req, res) {
+        var userId = req.params.id;
+        var newAllUserAfterDelete = userModel.deleteUserById(userId);
+        res.json(newAllUserAfterDelete);
     }
 };

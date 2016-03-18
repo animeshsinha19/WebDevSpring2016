@@ -4,22 +4,37 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $location, $rootScope, UserService) {
+    function LoginController($location, $rootScope, UserService) {
 
-        $scope.login = login;
+        var vm = this;
 
-        function login() {
-            var user;
-            UserService.findUserByCredentials(
-                $scope.username,
-                $scope.password,
-                function ($response) {
-                   user = $response;
-                    $rootScope.newUser = user;
+        vm.login = login;
+
+        function login(user) {
+            //var user;
+            UserService
+                .findUserByCredentials(
+                    user.username,
+                    user.password)
+
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data) {
+                        $rootScope.newUser = response.data;
+                        $location.url("/profile");
+                    } else {
+                        vm.error = "Invalid credentials";
+                    }
+
                 });
 
+            //function ($response) {
+            //   user = $response;
+            //    $rootScope.newUser = user;
+            //});
 
-            $location.url("/profile");
+
+
 
         }
 

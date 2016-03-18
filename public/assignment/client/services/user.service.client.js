@@ -18,19 +18,8 @@
         return api;
 
 
-        function findUserByCredentials(username, password, callback) {
-            var flag = false; //,admin = false;
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].username == username && users[i].password == password) {
-                    flag = true;
-
-                    callback(users[i]);
-                    break;
-                }
-            }
-            if (!flag) {
-                callback(null);
-            }
+        function findUserByCredentials(username, password) {
+            return $http.get("/api/assignment/user?username="+username+"&password="+password);
         }
 
         function findAllUsers(callback) {
