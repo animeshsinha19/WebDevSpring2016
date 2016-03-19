@@ -1,7 +1,7 @@
 (function () {
     angular
         .module("FormBuilderApp")
-        //.module("FormBuilderApp",["fieldSortable"])
+
         .controller("FieldController", FieldController);
 
     function FieldController($routeParams, $rootScope, FieldService) {
@@ -9,10 +9,10 @@
         var vm = this;
         vm.formId = $routeParams.formId;
 
-        vm.addField = addField;
-        vm.removeField = removeField;
-
         function init() {
+
+            vm.addField = addField;
+            vm.removeField = removeField;
 
             vm.draggable = {
                 axis : 'y'

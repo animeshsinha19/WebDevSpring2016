@@ -9,6 +9,12 @@
         var vm = this;
 
         function init() {
+
+            vm.addForm = addForm;
+            vm.updateForm = updateForm;
+            vm.deleteForm = deleteForm;
+            vm.selectForm = selectForm;
+
             if ($rootScope.newUser) {
                 FormService
                     .findAllFormsForUser($rootScope.newUser._id)
@@ -17,20 +23,11 @@
                         //console.log(vm.forms);
 
                     });
-
-
             }
 
         }
 
         init();
-
-
-        vm.addForm = addForm;
-        vm.updateForm = updateForm;
-        vm.deleteForm = deleteForm;
-        vm.selectForm = selectForm;
-
 
         function addForm() {
             var form = {

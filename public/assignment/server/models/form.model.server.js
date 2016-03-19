@@ -7,16 +7,37 @@ module.exports = function () {
         findAllFormsForUser: findAllFormsForUser,
         deleteFormById: deleteFormById,
         updateFormById: updateFormById,
+        getFormByFormId: getFormByFormId,
 
         getFieldByFormId: getFieldByFormId,
         createFieldByFormId: createFieldByFormId,
-        deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId
+        deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId,
+        getFieldByFieldIdAndFormId: getFieldByFieldIdAndFormId
     };
 
     return api;
 
     // Field related API
     // *****************************************************************************
+
+    function getFieldByFieldIdAndFormId(formId, fieldId) {
+        for (var i = 0; i < mockForms.length; i++) {
+            if (mockForms[i]._id == formId) {
+                var fields = mockForms[i].fields;
+                for (var j = 0; j < fields.length; j++) {
+
+                    if (fields[j]._id == fieldId) {
+                        return mockForms[i].fields[j];
+
+                    }
+                }
+            }
+        }
+
+        return null;
+
+    }
+
 
     function getFieldByFormId(formId) {
         for (var i = 0; i < mockForms.length; i++) {
@@ -42,13 +63,13 @@ module.exports = function () {
     }
 
     function deleteFieldByFieldIdAndFormId(formId, fieldId) {
-        for(var i=0;i<mockForms.length;i++) {
-            if(mockForms[i]._id == formId) {
+        for (var i = 0; i < mockForms.length; i++) {
+            if (mockForms[i]._id == formId) {
                 var fields = mockForms[i].fields;
-                for(var j=0;j<fields.length;j++) {
+                for (var j = 0; j < fields.length; j++) {
 
-                    if(fields[j]._id == fieldId) {
-                        fields.splice(j,1);
+                    if (fields[j]._id == fieldId) {
+                        fields.splice(j, 1);
                         mockForms[i].fields = fields;
                         return mockForms[i].fields;
 
@@ -62,6 +83,16 @@ module.exports = function () {
 
     // Form related API
     // *****************************************************************************
+
+    function getFormByFormId(formId) {
+        for (var i = 0; i < mockForms.length; i++) {
+            if (mockForms[i]._id == formId) {
+                return mockForms[i];
+            }
+        }
+        return null;
+    }
+
     function createFormForUser(userId, form) {
         var newForm = {
             "_id": (new Date).getTime().toString(),
@@ -72,13 +103,6 @@ module.exports = function () {
         mockForms.push(newForm);
         return findAllFormsForUser(userId);
 
-        //var newForm = {
-        //    "_id": (new Date).getTime(),
-        //    "title": form.title,
-        //    "userId": userId
-        //};
-        //mockForms.push(newForm);
-        //callback(newForm);
     }
 
     function findAllFormsForUser(userId) {
@@ -97,18 +121,6 @@ module.exports = function () {
         }
         return userForms;
 
-        //var userForms = [];
-        //for (var i = 0; i < mockForms.length; i++) {
-        //    if (mockForms[i].userId == userId) {
-        //        var formdetails = {
-        //            "_id": mockForms[i]._id,
-        //            "title": mockForms[i].title,
-        //            "userId": userId
-        //        };
-        //        userForms.push(formdetails);
-        //    }
-        //}
-        //callback(userForms);
     }
 
     function deleteFormById(formId) {
@@ -128,28 +140,6 @@ module.exports = function () {
         var newForms = findAllFormsForUser(userid);
         return newForms;
 
-
-        //var mainindex, userid;
-        //
-        //for (var i = 0; i < mockForms.length; i++) {
-        //    if (mockForms[i]._id == formId) {
-        //        mainindex = i;
-        //        userid = mockForms[i].userId;
-        //        break;
-        //    }
-        //}
-        //
-        //mockForms.splice(mainindex, 1);
-        //
-        //var newForms;
-        //findAllFormsForUser(
-        //    userid,
-        //    function ($response) {
-        //        newForms = $response;
-        //    });
-        //callback(newForms);
-
-
     }
 
     function updateFormById(formId, newForm) {
@@ -163,14 +153,7 @@ module.exports = function () {
         }
         return null;
 
-        //
-        //for (var i = 0; i < mockForms.length; i++) {
-        //    if (mockForms[i]._id == formId) {
-        //        mockForms[i].title = newForm.title;
-        //        callback(mockForms[i]);
-        //        break;
-        //    }
-        //}
+
     }
 
 };

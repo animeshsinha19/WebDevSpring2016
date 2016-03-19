@@ -8,10 +8,14 @@
 
         var vm = this;
 
-        vm.login = login;
+        function init() {
+            vm.login = login;
+        }
+        init();
+
 
         function login(user) {
-            //var user;
+
             UserService
                 .findUserByCredentials(
                     user.username,
@@ -27,13 +31,6 @@
                     }
 
                 });
-
-            //function ($response) {
-            //   user = $response;
-            //    $rootScope.newUser = user;
-            //});
-
-
 
 
         }

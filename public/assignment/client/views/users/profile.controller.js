@@ -8,9 +8,10 @@
 
         var vm = this;
 
-        vm.update = update;
-
         function init() {
+
+            vm.update = update;
+
             var newUser = $rootScope.newUser;
             //console.log(newUser);
             //console.log($rootScope.newUser._id);

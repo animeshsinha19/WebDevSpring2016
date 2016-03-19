@@ -21,14 +21,19 @@ module.exports = function(app, formModel) {
         //console.log(allForms);
         res.json(allForms);
     }
-    function getFormByFormId(req,res) {
 
+    function getFormByFormId(req,res) {
+        var formId = req.params.formId;
+        var form = formModel.getFormByFormId(formId);
+        res.json(form);
     }
+
     function deleteFormByFormId(req,res) {
         var formId = req.params.formId;
         var allForms = formModel.deleteFormById(formId);
         res.json(allForms);
     }
+
     function createForm(req,res) {
         var userId = req.params.userId;
         var form = req.body;
@@ -37,6 +42,7 @@ module.exports = function(app, formModel) {
         res.json(allForms);
 
     }
+
     function updateFormByFormId(req,res) {
         var formId = req.params.formId;
         var newForm = req.body;

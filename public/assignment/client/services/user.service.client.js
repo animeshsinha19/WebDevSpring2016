@@ -19,12 +19,12 @@
 
 
         function findUserByCredentials(username, password) {
-            return $http.get("/api/assignment/user?username="+username+"&password="+password);
+            return $http.get("/api/assignment/user?username=" + username + "&password=" + password);
         }
 
-        function findAllUsers(callback) {
+        function findAllUsers() {
 
-            callback(users);
+            return $http.get("/api/assignment/user");
         }
 
         function createUser(user) {
@@ -32,16 +32,9 @@
             return $http.post("/api/assignment/user", user);
         }
 
-        function deleteUserById(userId, callback) {
+        function deleteUserById(userId) {
 
-            for (var i = 0; i < users.length; i++) {
-                if (users[i]._id == userId) {
-                    users.splice(i, 1);
-                    callback(users);
-                    break;
-                }
-            }
-
+            return $http.delete("/api/assignment/user/" + userId);
         }
 
         function updateUser(userId, user) {
