@@ -25,7 +25,9 @@ module.exports = function(app, formModel) {
 
     }
     function deleteFormByFormId(req,res) {
-
+        var formId = req.params.formId;
+        var allForms = formModel.deleteFormById(formId);
+        res.json(allForms);
     }
     function createForm(req,res) {
         var userId = req.params.userId;
@@ -36,6 +38,11 @@ module.exports = function(app, formModel) {
 
     }
     function updateFormByFormId(req,res) {
+        var formId = req.params.formId;
+        var newForm = req.body;
+        var form = formModel.updateFormById(formId,newForm);
+        //console.log(form);
+        res.json(form);
 
     }
 

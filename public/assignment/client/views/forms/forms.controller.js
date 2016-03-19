@@ -4,7 +4,7 @@
         .module("FormBuilderApp")
         .controller("FormController", FormController);
 
-    function FormController($scope, $rootScope, FormService) {
+    function FormController($rootScope, FormService) {
 
         var vm = this;
 
@@ -51,24 +51,23 @@
         function updateForm() {
 
 
-            for (var i = 0; i < $scope.forms.length; i++) {
-                if ($scope.forms[i].title == $scope.tempFormname) {
+            for (var i = 0; i < vm.forms.length; i++) {
+                if (vm.forms[i].title == vm.tempFormname) {
 
                     var newForm = {
-                        "_id": $scope.forms[i]._id,
-                        "title": $scope.formname,
-                        "userId": $scope.forms[i].userId
+                        "_id": vm.forms[i]._id,
+                        "title": vm.formname,
+                        "userId": vm.forms[i].userId
                     };
 
-                    FormService.updateFormById(
-                        newForm._id,
-                        newForm,
-                        function ($response) {
-                            var updatedForm = $response;
-                            $scope.forms[i].title = updatedForm.title;
+                    FormService
+                        .updateFormById(newForm._id,newForm)
+                        .then(function(response) {
+                            vm.forms = response.data;
+                            //console.log(vm.forms);
                         });
 
-                    $scope.formname = "";
+                    vm.formname = "";
                     break;
                 }
             }
@@ -77,18 +76,20 @@
         }
 
         function deleteForm(index) {
-            var formid = $scope.forms[index]._id;
+            var formid = vm.forms[index]._id;
 
-            FormService.deleteFormById(formid,
-                function ($response) {
-                    $scope.forms = $response;
+            FormService
+                .deleteFormById(formid)
+                .then(function (response) {
+                    vm.forms = response.data;
+                    //console.log(vm.forms);
                 });
 
         }
 
         function selectForm(index) {
-            $scope.formname = $scope.forms[index].title;
-            $scope.tempFormname = $scope.formname;
+            vm.formname = vm.forms[index].title;
+            vm.tempFormname = vm.formname;
         }
 
 

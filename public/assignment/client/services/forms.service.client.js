@@ -29,39 +29,12 @@
             return $http.get("/api/assignment/user/"+userId+"/form");
         }
 
-        function deleteFormById(formId, callback) {
-
-            var mainindex, userid;
-
-            for (var i = 0; i < allForms.length; i++) {
-                if (allForms[i]._id == formId) {
-                    mainindex = i;
-                    userid = allForms[i].userId;
-                    break;
-                }
-            }
-
-            allForms.splice(mainindex, 1);
-
-            var newForms;
-            findAllFormsForUser(
-                userid,
-                function ($response) {
-                    newForms = $response;
-                });
-            callback(newForms);
-
-
+        function deleteFormById(formId) {
+            return $http.delete("/api/assignment/form/"+formId);
         }
 
-        function updateFormById(formId, newForm, callback) {
-            for (var i = 0; i < allForms.length; i++) {
-                if (allForms[i]._id == formId) {
-                    allForms[i].title = newForm.title;
-                    callback(allForms[i]);
-                    break;
-                }
-            }
+        function updateFormById(formId, newForm) {
+            return $http.put("/api/assignment/form/"+formId, newForm);
         }
 
     }

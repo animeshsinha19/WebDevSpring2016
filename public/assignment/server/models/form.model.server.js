@@ -6,16 +6,68 @@ module.exports = function () {
         createFormForUser: createFormForUser,
         findAllFormsForUser: findAllFormsForUser,
         deleteFormById: deleteFormById,
-        updateFormById: updateFormById
+        updateFormById: updateFormById,
+
+        getFieldByFormId: getFieldByFormId,
+        createFieldByFormId: createFieldByFormId,
+        deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId
     };
 
     return api;
 
+    // Field related API
+    // *****************************************************************************
+
+    function getFieldByFormId(formId) {
+        for (var i = 0; i < mockForms.length; i++) {
+            if (mockForms[i]._id == formId) {
+                return mockForms[i].fields;
+            }
+        }
+        return null;
+
+    }
+
+    function createFieldByFormId(formId, field) {
+        for (var i = 0; i < mockForms.length; i++) {
+            if (mockForms[i]._id == formId) {
+                field._id = (new Date).getTime().toString();
+
+                mockForms[i].fields.push(field);
+
+                return mockForms[i].fields;
+            }
+        }
+        return null;
+    }
+
+    function deleteFieldByFieldIdAndFormId(formId, fieldId) {
+        for(var i=0;i<mockForms.length;i++) {
+            if(mockForms[i]._id == formId) {
+                var fields = mockForms[i].fields;
+                for(var j=0;j<fields.length;j++) {
+
+                    if(fields[j]._id == fieldId) {
+                        fields.splice(j,1);
+                        mockForms[i].fields = fields;
+                        return mockForms[i].fields;
+
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // Form related API
+    // *****************************************************************************
     function createFormForUser(userId, form) {
         var newForm = {
             "_id": (new Date).getTime().toString(),
             "title": form.title,
-            "userId": userId
+            "userId": userId,
+            "fields": []
         };
         mockForms.push(newForm);
         return findAllFormsForUser(userId);
@@ -105,7 +157,7 @@ module.exports = function () {
         for (var i = 0; i < mockForms.length; i++) {
             if (mockForms[i]._id == formId) {
                 mockForms[i].title = newForm.title;
-                return mockForms[i];
+                return findAllFormsForUser(mockForms[i].userId);
 
             }
         }
