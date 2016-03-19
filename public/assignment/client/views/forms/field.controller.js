@@ -13,6 +13,11 @@
         vm.removeField = removeField;
 
         function init() {
+
+            vm.draggable = {
+                axis : 'y'
+            };
+
             if ($rootScope.newUser) {
                 FieldService
                     .getFieldsForForm(vm.formId)
@@ -22,9 +27,7 @@
                     });
 
             }
-            vm.draggable = {
-                axis : 'y'
-            };
+
         }
 
         init();
@@ -42,7 +45,7 @@
                 .deleteFieldFromForm(formId, fieldId)
                 .then(function (response) {
                     vm.fields = response.data;
-                    console.log(response.data);
+                    //console.log(response.data);
                 });
         }
 
