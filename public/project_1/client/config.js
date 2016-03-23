@@ -30,19 +30,23 @@
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
-                controller: "loginController"
+                controller: "loginController",
+                controllerAs: "model"
             })
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
-                controller: "profileController"
+                controller: "profileController",
+                controllerAs: "model"
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
-                controller: "registerController"
+                controller: "registerController",
+                controllerAs: "model"
             })
             .when("/admin", {
                 templateUrl: "views/users/admin.view.html",
-                controller: "adminController"
+                controller: "adminController",
+                controllerAs: "model"
             })
             //.when("/search/:title", {
             //    templateUrl: "search/search.view.html",

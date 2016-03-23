@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="user in userList">
+        <tr ng-repeat="user in model.userList">
             <td>
                 {{user.username}}
             </td>
@@ -33,7 +33,7 @@
                 </div>
             </td>
             <td>
-                <button class="btn btn-danger" ng-click="deleteUser($index)">Remove User</button>
+                <button class="btn btn-danger" ng-click="model.deleteUser($index)">Remove User</button>
 
             </td>
         </tr>
