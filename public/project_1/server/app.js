@@ -1,8 +1,5 @@
 module.exports = function(app) {
 
-
-    var http = require("http");
-
     // Model dependencies
     var userModel    = require("./models/user.model.server.js")();
     var restaurantModel = require("./models/restaurant.model.server.js")();
