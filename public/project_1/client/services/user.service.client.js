@@ -12,9 +12,13 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser
+
+
         };
 
         return api;
+
+
 
 
         function findUserByCredentials(username, password) {
@@ -41,9 +45,6 @@
             return $http.put("/api/project_1/user/" + userId, user);
 
         }
-
-
-
 
 
     }

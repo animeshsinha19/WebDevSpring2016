@@ -10,7 +10,12 @@
 
         var api = {
             searchByPlace: searchByPlace,
-            searchByBusinessId: searchByBusinessId
+            searchByBusinessId: searchByBusinessId,
+
+            getLikedRestaurantForUser: getLikedRestaurantForUser,
+            deleteLikedRestaurantForUser: deleteLikedRestaurantForUser,
+            createLikedRestaurantForUser: createLikedRestaurantForUser
+
             //searchByTerm: searchByTerm,
             //
             //searchByTermAndPlace: searchByTermAndPlace,
@@ -18,6 +23,18 @@
         };
         return api;
 
+        function createLikedRestaurantForUser(userId,restaurantId) {
+            return $http.post("/api/project_1/user/" + userId + "/restaurant/" + restaurantId);
+        }
+
+
+        function deleteLikedRestaurantForUser(userId,restaurantId) {
+            return $http.delete("/api/project_1/user/" + userId + "/restaurant/" + restaurantId);
+        }
+
+        function getLikedRestaurantForUser(userId, restaurantId) {
+            return $http.get("/api/project_1/user/" + userId + "/restaurant/" + restaurantId);
+        }
 
         function randomString(length, chars) {
             var result = '';

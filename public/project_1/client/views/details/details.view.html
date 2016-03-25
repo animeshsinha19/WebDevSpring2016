@@ -6,13 +6,38 @@
                 <img ng-src="{{model.data.image_url}}">
                 <br>
                 <h4>{{model.data.name}}</h4>
+
+
+                <div ng-show="newUser" ng-switch=model.liked>
+
+                    <div ng-switch-when="no">
+
+                        <a ng-click="model.likebtn()">
+                                <span class="glyphicon glyphicon-heart-empty" aria-hidden="true">
+                                </span>
+                        </a>
+
+                    </div>
+
+                    <div ng-switch-when="yes">
+
+                        <a ng-click="model.likebtn()">
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true">
+                            </span>
+                        </a>
+                    </div>
+
+
+                </div>
+
+
             </div>
             <div class="col-xs-5">
                 <div class="row">
                     Address:<br>
-                   <div ng-repeat="a in model.address">
-                       {{a}}
-                   </div>
+                    <div ng-repeat="a in model.address">
+                        {{a}}
+                    </div>
                 </div>
                 <div class="row">
                     <h5>{{model.data.display_phone}}</h5>
@@ -38,4 +63,6 @@
 
     </ng-map>
 </div>
+
+
 

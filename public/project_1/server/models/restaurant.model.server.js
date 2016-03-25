@@ -7,11 +7,22 @@ module.exports = function () {
         setRestaurantAsLikedForUser: setRestaurantAsLikedForUser,
         getAllLikedRestaurants: getAllLikedRestaurants,
         deleteLikedRestaurant: deleteLikedRestaurant,
-        getLikedRestaurantsByRestaurantId : getLikedRestaurantsByRestaurantId
+        getLikedRestaurantsByRestaurantId : getLikedRestaurantsByRestaurantId,
+        getLikedRestaurantForUser: getLikedRestaurantForUser
 
     };
 
     return api;
+
+    function getLikedRestaurantForUser(userId,restaurantId) {
+        for(var i=0;i<likedRestaurants.length;i++) {
+            if(likedRestaurants[i].restaurantId == restaurantId && likedRestaurants[i].userId == userId) {
+                return likedRestaurants[i];
+            }
+        }
+        return null;
+
+    }
 
     function getLikedRestaurantsByRestaurantId(restaurantId) {
         var restaurants = [];
@@ -34,7 +45,7 @@ module.exports = function () {
     }
 
     function setRestaurantAsLikedForUser(userId, restaurantId) {
-        if (getLikedRestaurantsForUser(userId, restaurantId) == null) {
+        if (getLikedRestaurantForUser(userId, restaurantId) == null) {
             var newRestaurant = {
                 userId: userId,
                 restaurantId: restaurantId
@@ -42,6 +53,9 @@ module.exports = function () {
 
             likedRestaurants.push(newRestaurant);
         }
+
+        //console.log(likedRestaurants);
+
         return getLikedRestaurantsForUser(userId);
     }
 
