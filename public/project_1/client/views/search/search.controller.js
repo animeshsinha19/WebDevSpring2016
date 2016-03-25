@@ -4,18 +4,25 @@
         .controller("searchController", searchController);
 
 
-    function searchController($scope,$location) {
-        $scope.search = search;
+    function searchController($scope, $location) {
 
+        var vm = this;
 
-        if($scope.place) {
+        function init() {
+            vm.search = search;
 
-            search($scope.restaurantName);
+            if (vm.location) {
+                search(vm.location.place);
+            }
+
         }
+        init();
 
-        function search(place) {
+
+        function search(location) {
             //$rootScope.restaurantName = restaurant;
-            $location.url("/results/"+place);
+            //console.log(location.place);
+            $location.url("/results/" + location.place);
         }
 
 

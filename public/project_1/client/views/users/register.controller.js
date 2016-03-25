@@ -6,26 +6,27 @@
 
     function RegisterController($scope, $rootScope, $location, UserService) {
 
-        $scope.register = register;
+        var vm = this;
 
-        function register() {
+        function init() {
+            vm.register = register;
+        }
+
+        init();
+
+        function register(user) {
 
             var userBasicInfo = {
-                name: $scope.username,
-                password: $scope.userpass,
-                email: $scope.useremail
+                name: user.username,
+                password: user.userpass,
+                email: user.useremail
             };
 
-            UserService.createUser(
-                userBasicInfo,
-                function ($response) {
-                    $rootScope.newUser = $response;
-
-
-                }
-            );
-
-
+            UserService
+                .createUser(userBasicInfo)
+                .then(function (response) {
+                    $rootScope.newUser = response.data;
+                });
 
             $location.url("/profile");
         }

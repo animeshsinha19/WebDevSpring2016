@@ -26,7 +26,7 @@
             return result;
         }
 
-        function searchByBusinessId(id, callback) {
+        function searchByBusinessId(id) {
             var method = "GET";
             var url = "https://api.yelp.com/v2/business/" + id + "?callback=JSON_CALLBACK";
             var params = {
@@ -47,12 +47,12 @@
             //put signature in params
             params.oauth_signature = signature;
 
-            $http.jsonp(url, {
+            return $http.jsonp(url, {
                 params: params
-            }).success(callback);
+            });
         }
 
-        function searchByPlace(search_term, callback) {
+        function searchByPlace(search_term) {
 
             var deferred = $q.defer();
             var method = "GET";
@@ -83,9 +83,9 @@
             //put signature in params
             params.oauth_signature = signature;
 
-            $http.jsonp(url, {
+            return $http.jsonp(url, {
                 params: params
-            }).success(callback);
+            });
         }
 
     }

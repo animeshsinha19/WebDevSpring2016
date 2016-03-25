@@ -12,7 +12,7 @@
             vm.update = update;
 
             var newUser = $rootScope.newUser;
-            console.log(newUser);
+            //console.log(newUser);
 
             vm.username = newUser.username;
             vm.password = newUser.password;
@@ -42,7 +42,7 @@
                 )
                 .then(function (response) {
                     $rootScope.newUser = response.data;
-                    console.log($rootScope.newUser);
+                    //console.log($rootScope.newUser);
                 });
 
             $location.url("/search");

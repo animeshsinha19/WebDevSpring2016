@@ -5,13 +5,15 @@
 
     function detailsController($routeParams, RestaurantService,$scope,$http) {
         var yelpId = $routeParams.id;
+        var vm = this;
 
-        RestaurantService.searchByBusinessId(yelpId,
-            function (response) {
+        RestaurantService
+            .searchByBusinessId(yelpId)
+            .then( function (response) {
 
-                $scope.locationCoords = response.location.coordinate;
-                $scope.data = response;
-                $scope.address = response.location.display_address;
+                vm.locationCoords = response.data.location.coordinate;
+                vm.data = response.data;
+                vm.address = response.data.location.display_address;
 
             });
 

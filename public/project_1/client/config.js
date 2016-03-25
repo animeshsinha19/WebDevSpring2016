@@ -10,7 +10,8 @@
             //})
             .when("/search", {
                 templateUrl: "views/search/search.view.html",
-                controller: "searchController"
+                controller: "searchController",
+                controllerAs: "model"
             })
             .when("/maps", {
                 templateUrl: "views/search/maps.view.html",
@@ -22,11 +23,13 @@
             })
             .when("/results/:place", {
                 templateUrl: "views/results/results.view.html",
-                controller: "resultsController"
+                controller: "resultsController",
+                controllerAs: "model"
             })
             .when("/details/:id", {
                 templateUrl: "views/details/details.view.html",
-                controller: "detailsController"
+                controller: "detailsController",
+                controllerAs: "model"
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",

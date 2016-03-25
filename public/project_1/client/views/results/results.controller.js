@@ -4,18 +4,22 @@
         .module("ProjectApp")
         .controller("resultsController", resultsController);
 
-    function resultsController($scope, $routeParams,RestaurantService) {
+    function resultsController($scope, $routeParams, RestaurantService) {
         var place = $routeParams.place;
+        var vm = this;
 
+        function init() {
 
-        RestaurantService.searchByPlace(
-            place,
-            function (response) {
-                $scope.restaurants = response.businesses;
+        }
+
+        init();
+
+        RestaurantService
+            .searchByPlace(place)
+            .then(function (response) {
+                vm.restaurants = response.data.businesses;
 
             });
-
-
 
     }
 })();

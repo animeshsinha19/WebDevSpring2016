@@ -4,7 +4,7 @@
 
         <div class="col-sm-7">
 
-            <input ng-model="place" type="text" class="form-control" id="place" placeholder="city.. like Boston">
+            <input ng-model="model.location.place" type="text" class="form-control" id="place" placeholder="city.. like Boston">
 
         </div>
     </div>
@@ -14,7 +14,7 @@
     <div class="form-group">
         <div class="col-sm-7">
 
-            <button ng-click="search(place)" class="btn btn-block btn-primary">Search</button>
+            <button ng-click="model.search(model.location)" class="btn btn-block btn-primary">Search</button>
 
         </div>
     </div>
