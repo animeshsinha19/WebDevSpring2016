@@ -15,13 +15,19 @@
             getLikedRestaurantForUser: getLikedRestaurantForUser,
             deleteLikedRestaurantForUser: deleteLikedRestaurantForUser,
             createLikedRestaurantForUser: createLikedRestaurantForUser,
-            getLikedRestaurantsForUser: getLikedRestaurantsForUser
+            getLikedRestaurantsForUser: getLikedRestaurantsForUser,
+            getLikedRestaurantsByRestaurantId: getLikedRestaurantsByRestaurantId
+
             //searchByTerm: searchByTerm,
             //
             //searchByTermAndPlace: searchByTermAndPlace,
             //searchByNumberAndTerm: searchByNumberAndTerm
         };
         return api;
+
+        function getLikedRestaurantsByRestaurantId(restaurantId) {
+            return $http.get("/api/project_1/restaurant/" + restaurantId + "/user");
+        }
 
         function getLikedRestaurantsForUser(userId) {
             return $http.get("/api/project_1/user/" + userId + "/restaurants");

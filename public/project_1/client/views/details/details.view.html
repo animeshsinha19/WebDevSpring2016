@@ -57,6 +57,24 @@
 </div>
 <br><br>
 <div class="row">
+    <div class="col-xs-2"><label>Users who liked this restaurant</label></div>
+
+    <div class="col-xs-4">
+        <div ng-switch=name ng-repeat="name in model.firstNames">
+            <!--<div ng-switch-when='newUser.firstName'>-->
+            <!--You-->
+            <!--</div>-->
+            <!--<div ng-switch-default>-->
+            {{name}}
+            <!--</div>-->
+
+        </div>
+    </div>
+
+</div>
+
+<br><br>
+<div class="row">
     <ng-map center="[{{model.locationCoords.latitude}}, {{model.locationCoords.longitude}}]">
         <marker position="[{{model.locationCoords.latitude}}, {{model.locationCoords.longitude}}]"
                 title="Restaurant" centered="true"></marker>
