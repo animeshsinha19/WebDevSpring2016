@@ -45,7 +45,7 @@
                     //console.log($rootScope.newUser);
                 });
 
-            $location.url("/userinfo");
+            $location.url("/home");
         }
     }
 })();
