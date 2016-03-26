@@ -7,10 +7,42 @@
         var yelpId = $routeParams.id;
         var vm = this;
 
+        function init() {
+            vm.likebtn = likebtn;
+            getLikes();
+            getLikedGlyph();
+            getRestaurantData();
+        }
 
-        vm.likebtn = likebtn;
+        init();
 
-        getLikes();
+        function getRestaurantData() {
+            RestaurantService
+                .searchByBusinessId(yelpId)
+                .then(function (response) {
+
+                    vm.locationCoords = response.data.location.coordinate;
+                    vm.data = response.data;
+                    vm.address = response.data.location.display_address;
+
+                });
+        }
+
+        function getLikedGlyph() {
+            if ($rootScope.newUser) {
+                RestaurantService
+                    .getLikedRestaurantForUser($rootScope.newUser._id, yelpId)
+                    .then(function (response) {
+                        if (response.data) {
+                            vm.liked = "yes";
+                        } else {
+                            vm.liked = "no";
+                        }
+                    });
+
+            }
+        }
+
 
         function likebtn() {
             if (vm.liked == "yes") {
@@ -28,59 +60,47 @@
             getLikes();
         }
 
-        if ($rootScope.newUser) {
-            RestaurantService
-                .getLikedRestaurantForUser($rootScope.newUser._id, yelpId)
-                .then(function (response) {
-                    if (response.data) {
-                        vm.liked = "yes";
-                    } else {
-                        vm.liked = "no";
-                    }
-                });
-
-        }
-
-
 
         function getLikes() {
             RestaurantService
                 .getLikedRestaurantsByRestaurantId(yelpId)
                 .then(function (response) {
-                    var userIds = [];
-                    var restaurants = response.data;
-                    for (var i = 0; i < restaurants.length; i++) {
-                        userIds.push(restaurants[i].userId);
-                    }
-                    UserService
-                        .findAllUsers()
-                        .then(function (response) {
-                            var userNames = [];
-                            var allUsers = response.data;
-                            for (var i = 0; i < userIds.length; i++) {
-                                for (var j = 0; j < allUsers.length; j++) {
-                                    if(userIds[i] == allUsers[j]._id) {
-                                        userNames.push(allUsers[j].firstName);
-                                    }
-                                }
-                            }
-
-                            vm.firstNames = userNames;
-
-                        });
+                    var userIds = getUserIds(response.data);
+                    getUserNamesFromIds(userIds);
                 });
         }
 
+        function getUserNamesFromIds(userIds) {
+            UserService
+                .findAllUsers()
+                .then(function (response) {
+                    vm.firstNames = getUserNames(response.data, userIds);
+                });
+        }
 
-        RestaurantService
-            .searchByBusinessId(yelpId)
-            .then(function (response) {
+        function getUserIds(restaurants) {
+            var userIds = [];
 
-                vm.locationCoords = response.data.location.coordinate;
-                vm.data = response.data;
-                vm.address = response.data.location.display_address;
+            for (var i = 0; i < restaurants.length; i++) {
+                userIds.push(restaurants[i].userId);
+            }
 
-            });
+            return userIds;
+        }
+
+        function getUserNames(allUsers, userIds) {
+            var userNames = [];
+
+            for (var i = 0; i < userIds.length; i++) {
+                for (var j = 0; j < allUsers.length; j++) {
+                    if (userIds[i] == allUsers[j]._id) {
+                        userNames.push(allUsers[j].firstName);
+                    }
+                }
+            }
+
+            return userNames
+        }
 
 
     }
