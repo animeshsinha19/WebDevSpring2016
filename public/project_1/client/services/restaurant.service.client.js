@@ -14,8 +14,8 @@
 
             getLikedRestaurantForUser: getLikedRestaurantForUser,
             deleteLikedRestaurantForUser: deleteLikedRestaurantForUser,
-            createLikedRestaurantForUser: createLikedRestaurantForUser
-
+            createLikedRestaurantForUser: createLikedRestaurantForUser,
+            getLikedRestaurantsForUser: getLikedRestaurantsForUser
             //searchByTerm: searchByTerm,
             //
             //searchByTermAndPlace: searchByTermAndPlace,
@@ -23,12 +23,17 @@
         };
         return api;
 
-        function createLikedRestaurantForUser(userId,restaurantId) {
+        function getLikedRestaurantsForUser(userId) {
+            return $http.get("/api/project_1/user/" + userId + "/restaurants");
+        }
+
+
+        function createLikedRestaurantForUser(userId, restaurantId) {
             return $http.post("/api/project_1/user/" + userId + "/restaurant/" + restaurantId);
         }
 
 
-        function deleteLikedRestaurantForUser(userId,restaurantId) {
+        function deleteLikedRestaurantForUser(userId, restaurantId) {
             return $http.delete("/api/project_1/user/" + userId + "/restaurant/" + restaurantId);
         }
 

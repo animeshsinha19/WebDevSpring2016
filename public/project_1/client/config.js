@@ -41,6 +41,11 @@
                 controller: "profileController",
                 controllerAs: "model"
             })
+            .when("/userinfo", {
+                templateUrl: "views/users/userinfo.view.html",
+                controller: "userInfoController",
+                controllerAs: "model"
+            })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
                 controller: "registerController",
