@@ -137,13 +137,16 @@ module.exports = function (db, mongoose) {
                 if (err) {
                     deferred.reject(err);
                 } else {
+                    var deferred2 = q.defer();
+
                     UserModel.find({_id: userId}, function (err, doc) {
                         if (err) {
-                            deferred.reject(err);
+                            deferred2.reject(err);
                         } else {
-                            deferred.resolve(doc);
+                            deferred2.resolve(doc);
                         }
                     });
+                    return deferred2.promise;
                 }
 
             });
