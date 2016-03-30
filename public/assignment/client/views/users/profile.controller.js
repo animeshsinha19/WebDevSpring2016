@@ -39,6 +39,8 @@
                     updatedUser._id,
                     updatedUser)
                 .then(function (response) {
+
+                    console.log("inside then");
                     $rootScope.newUser = response.data[0];
                     console.log(response.data[0]);
                 });
