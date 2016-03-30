@@ -34,16 +34,16 @@
                 "firstName": user.firstname,
                 "lastName": user.lastname
             };
-            console.log("controller");
+            //console.log("controller");
             UserService
                 .updateUser(
                     $rootScope.newUser._id,
                     updatedUser)
                 .then(function (response) {
 
-                    console.log("inside then");
+                    //console.log("inside then");
                     $rootScope.newUser = response.data[0];
-                    console.log(response.data[0]);
+                    //console.log(response.data[0]);
                 });
 
 
