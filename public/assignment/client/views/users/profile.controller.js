@@ -17,7 +17,7 @@
             //console.log($rootScope.newUser._id);
             vm.username = newUser.username;
             vm.password = newUser.password;
-            vm.email = newUser.email;
+            vm.email = newUser.emails[0];
             vm.firstname = newUser.firstName;
             vm.lastname = newUser.lastName;
         }
@@ -29,7 +29,7 @@
                 "_id": $rootScope.newUser._id,
                 "username": user.username,
                 "password": user.password,
-                "email": user.email,
+                "emails": [user.email],
                 "firstName": user.firstname,
                 "lastName": user.lastname
             };
@@ -39,8 +39,8 @@
                     updatedUser._id,
                     updatedUser)
                 .then(function (response) {
-                    $rootScope.newUser = updatedUser;
-                    //console.log(response.data[response.data.length-1]);
+                    $rootScope.newUser = response.data[0];
+                    //console.log(response.data);
                 });
 
 

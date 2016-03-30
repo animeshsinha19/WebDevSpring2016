@@ -1,7 +1,13 @@
 var mockUsers = require("./user.mock.json");
 
+var q = require('q');
 
-module.exports = function () {
+module.exports = function (db, mongoose) {
+
+    var UserSchema = require('./user.schema.server.js')(mongoose);
+
+    var UserModel = mongoose.model('User', UserSchema);
+
 
     var api = {
         findUserByCredentials: findUserByCredentials,
@@ -16,226 +22,135 @@ module.exports = function () {
     return api;
 
     function findUserByUsername(username) {
-        for(var i=0;i<mockUsers.length;i++) {
-            if(mockUsers[i].username == username) {
-                return mockUsers[i];
+        var deferred = q.defer();
+
+        UserModel.find({username: username}, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
+
+
     }
 
     function findUserById(userId) {
-        for (var i = 0; i < mockUsers.length; i++) {
-            if (mockUsers[i]._id == userId) {
-                return mockUsers[i];
+        var deferred = q.defer();
+
+        UserModel.find({_id: userId}, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
+
     }
 
     function findUserByCredentials(username, password) {
 
-        var flag = false; //,admin = false;
-        for (var i = 0; i < mockUsers.length; i++) {
-            if (mockUsers[i].username == username && mockUsers[i].password == password) {
-                flag = true;
-                return mockUsers[i];
+        var deferred = q.defer();
 
+        UserModel.find({
+            username: username,
+            password: password
+        }, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-        if (!flag) {
-            return null;
-        }
+        });
+
+        return deferred.promise;
+
+
     }
 
     function findAllUsers() {
+        var deferred = q.defer();
 
-        return mockUsers;
+        UserModel.find(function (err, docs) {
+                if (err) {
+                    deferred.reject(err);
+                }
+                else {
+                    deferred.resolve(docs);
+                }
+            }
+        );
+        return deferred.promise;
+
     }
 
     function createUser(user) {
+        var deferred = q.defer();
+
         var newUser = {
-            "_id": (new Date).getTime(),
             "firstName": "",
             "lastName": "",
             "username": user.username,
             "password": user.password,
             "roles": [],
-            "email": user.email
+            "emails": [user.email]
         };
-        mockUsers.push(newUser);
 
-        return mockUsers;
+        UserModel.create(newUser, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+
+        });
+        return deferred.promise;
+
 
     }
 
     function deleteUserById(userId) {
 
-        for (var i = 0; i < mockUsers.length; i++) {
-            if (mockUsers[i]._id == userId) {
-                mockUsers.splice(i, 1);
-                return mockUsers;
+        var deferred = q.defer();
+
+        UserModel.remove({_id: userId}, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
+        });
+
+        return deferred.promise;
 
     }
 
     function updateUser(userId, user) {
-        //console.log("before:");
-        //console.log(users);
+        var deferred = q.defer();
 
-        //deleteUserById(userId, function ($response) {
-        //    users = $response;
-        //
-        //});
-        //
+        UserModel
+            .update({_id: userId}, {$set: user}, function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    UserModel.find({_id: userId}, function (err, doc) {
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
 
-        //users.push(user);
+            });
 
-        //console.log("after:");
-        //console.log(users);
+        return deferred.promise;
 
-        //callback(user);
 
-        for (var i = 0; i < mockUsers.length; i++) {
-            if (mockUsers[i]._id == userId) {
-                mockUsers[i].username = user.username;
-                mockUsers[i].password = user.password;
-                mockUsers[i].email = user.email;
-                mockUsers[i].firstName = user.firstName;
-                mockUsers[i].lastName = user.lastName;
-                //console.log("inside update");
-                return mockUsers;
-
-            }
-        }
     }
 
-
-    // load user schema
-    //var UserSchema = require("./user.schema.server.js")(mongoose);
-    //
-    //// create user model from schema
-    //var UserModel = mongoose.model('User', UserSchema);
-
-    //var api = {
-    //    findUserByCredentials: findUserByCredentials,
-    //    createUser: createUser,
-    //    findUserById: findUserById,
-    //    findUsersByIds: findUsersByIds,
-    //    userLikesMovie: userLikesMovie
-    //};
-    //return api;
-    //
-    //// add movie to user likes
-    //function userLikesMovie (userId, movie) {
-    //
-    //    var deferred = q.defer();
-    //
-    //    // find the user
-    //    UserModel.findById(userId, function (err, doc) {
-    //
-    //        // reject promise if error
-    //        if (err) {
-    //            deferred.reject(err);
-    //        } else {
-    //
-    //            // add movie id to user likes
-    //            doc.likes.push (movie.imdbID);
-    //
-    //            // save user
-    //            doc.save (function (err, doc) {
-    //
-    //                if (err) {
-    //                    deferred.reject(err);
-    //                } else {
-    //
-    //                    // resolve promise with user
-    //                    deferred.resolve (doc);
-    //                }
-    //            });
-    //        }
-    //    });
-    //
-    //    return deferred;
-    //}
-    //
-    //function findUsersByIds (userIds) {
-    //    var deferred = q.defer();
-    //
-    //    // find all users in array of user IDs
-    //    UserModel.find({
-    //        _id: {$in: userIds}
-    //    }, function (err, users) {
-    //        if (err) {
-    //            deferred.reject(err);
-    //        } else {
-    //            deferred.resolve(users);
-    //        }
-    //    });
-    //
-    //    return deferred.promise;
-    //}
-    //
-    //// use user model find by id
-    //function findUserById(userId) {
-    //    var deferred = q.defer();
-    //    UserModel.findById(userId, function (err, doc) {
-    //        if (err) {
-    //            deferred.reject(err);
-    //        } else {
-    //            deferred.resolve(doc);
-    //        }
-    //    });
-    //    return deferred.promise;
-    //}
-    //
-    //function createUser(user) {
-    //
-    //    // use q to defer the response
-    //    var deferred = q.defer();
-    //
-    //    // insert new user with mongoose user model's create()
-    //    UserModel.create(user, function (err, doc) {
-    //
-    //        if (err) {
-    //            // reject promise if error
-    //            deferred.reject(err);
-    //        } else {
-    //            // resolve promise
-    //            deferred.resolve(doc);
-    //        }
-    //
-    //    });
-    //
-    //    // return a promise
-    //    return deferred.promise;
-    //}
-    //
-    //function findUserByCredentials(credentials) {
-    //
-    //    var deferred = q.defer();
-    //
-    //    // find one retrieves one document
-    //    UserModel.findOne(
-    //
-    //        // first argument is predicate
-    //        { username: credentials.username,
-    //            password: credentials.password },
-    //
-    //        // doc is unique instance matches predicate
-    //        function(err, doc) {
-    //
-    //            if (err) {
-    //                // reject promise if error
-    //                deferred.reject(err);
-    //            } else {
-    //                // resolve promise
-    //                deferred.resolve(doc);
-    //            }
-    //
-    //        });
-    //
-    //    return deferred.promise;
-    //}
 };

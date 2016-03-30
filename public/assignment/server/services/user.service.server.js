@@ -22,13 +22,14 @@ module.exports = function (app, userModel) {
     app.delete("/api/assignment/user/:id", deleteUserById);
 
 
-
     function createUser(req, res) {
         var user = req.body;
 
-        var newAllUsers = userModel.createUser(user);
-
-        res.json(newAllUsers);
+        userModel
+            .createUser(user)
+            .then(function (response) {
+                res.json(response);
+            });
 
     }
 
@@ -38,29 +39,47 @@ module.exports = function (app, userModel) {
         } else if (req.query.username) {
             getUserByUsername(req, res);
         } else {
-            res.json(userModel.findAllUsers());
+
+            //res.json(userModel.findAllUsers());
+
+            userModel
+                .findAllUsers()
+                .then(function (response) {
+                    res.json(response);
+                })
         }
 
     }
 
     function getUserById(req, res) {
         var userId = req.params.id;
-        var user = userModel.findUserById(userId);
-        res.json(user);
+        userModel
+            .findUserById(userId)
+            .then(function(response) {
+                res.json(response);
+            });
+
     }
 
     function getUserByUsername(req, res) {
         var username = req.query.username;
-        var foundUser = userModel.findUserByUsername(username);
-        res.json(foundUser);
+        userModel
+            .findUserByUsername(username)
+            .then(function(response) {
+               res.json(response);
+            });
+
     }
 
     function getUserByCredentials(req, res) {
         var username = req.query.username;
         var password = req.query.password;
 
-        var foundUser = userModel.findUserByCredentials(username,password);
-        res.json(foundUser);
+        userModel
+            .findUserByCredentials(username, password)
+            .then(function(response) {
+                res.json(response);
+            });
 
     }
 
@@ -68,15 +87,22 @@ module.exports = function (app, userModel) {
         var userId = req.params.id;
         var user = req.body;
 
-        var newAllUsers = userModel.updateUser(userId, user);
+        userModel
+            .updateUser(userId, user)
+            .then(function (response) {
+                res.json(response);
+            });
 
-        res.json(newAllUsers);
 
     }
 
     function deleteUserById(req, res) {
         var userId = req.params.id;
-        var newAllUserAfterDelete = userModel.deleteUserById(userId);
-        res.json(newAllUserAfterDelete);
+        userModel
+            .deleteUserById(userId)
+            .then(function (response) {
+                res.json(response);
+            });
+
     }
 };
