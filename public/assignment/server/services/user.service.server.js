@@ -90,21 +90,19 @@ module.exports = function (app, userModel) {
         userModel
             .updateUser(userId, user)
             .then(function (response) {
-                userModel
-                    .findUserById(userId)
-                    .then(function(response) {
-                       res.json(response);
-                    });
+                res.json(response);
+            },
+            function(err) {
+                res.status(400).send(err);
             });
-
-
     }
 
     function deleteUserById(req, res) {
         var userId = req.params.id;
         userModel
             .deleteUserById(userId)
-            .then(function (response) {
+            .then(
+                function (response) {
                 res.json(response);
             });
 
