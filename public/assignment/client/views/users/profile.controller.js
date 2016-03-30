@@ -33,7 +33,7 @@
                 "firstName": user.firstname,
                 "lastName": user.lastname
             };
-
+            console.log("controller");
             UserService
                 .updateUser(
                     updatedUser._id,
