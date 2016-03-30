@@ -25,8 +25,9 @@
         init();
 
         function update(user) {
-            var userId = $rootScope.newUser._id;
+
             var updatedUser = {
+                "_id": $rootScope.newUser._id,
                 "username": user.username,
                 "password": user.password,
                 "emails": [user.email],
@@ -36,7 +37,7 @@
             console.log("controller");
             UserService
                 .updateUser(
-                    userId,
+                    updatedUser._id,
                     updatedUser)
                 .then(function (response) {
 
