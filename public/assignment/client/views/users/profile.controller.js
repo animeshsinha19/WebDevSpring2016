@@ -40,7 +40,7 @@
                     updatedUser)
                 .then(function (response) {
                     $rootScope.newUser = response.data[0];
-                    //console.log(response.data);
+                    console.log(response.data[0]);
                 });
 
 
