@@ -90,7 +90,11 @@ module.exports = function (app, userModel) {
         userModel
             .updateUser(userId, user)
             .then(function (response) {
-                res.json(response);
+                userModel
+                    .findUserById(userId)
+                    .then(function(response) {
+                       res.json(response);
+                    });
             });
 
 
