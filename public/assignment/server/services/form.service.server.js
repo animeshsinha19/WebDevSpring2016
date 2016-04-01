@@ -1,4 +1,4 @@
-module.exports = function(app, formModel) {
+module.exports = function (app, formModel) {
 
     // GET /api/assignment/user/:userId/form
     app.get("/api/assignment/user/:userId/form", getFormsByUserId);
@@ -15,40 +15,76 @@ module.exports = function(app, formModel) {
     // PUT /api/assignment/form/:formId
     app.put("/api/assignment/form/:formId", updateFormByFormId);
 
-    function getFormsByUserId(req,res) {
+    function getFormsByUserId(req, res) {
         var userId = req.params.userId;
-        var allForms = formModel.findAllFormsForUser(userId);
-        //console.log(allForms);
-        res.json(allForms);
+        formModel
+            .findAllFormsForUser(userId)
+            .then(function (response) {
+                res.json(response);
+            });
+
+
     }
 
-    function getFormByFormId(req,res) {
+    function getFormByFormId(req, res) {
         var formId = req.params.formId;
-        var form = formModel.getFormByFormId(formId);
-        res.json(form);
+        formModel
+            .getFormByFormId(formId)
+            .then(function (response) {
+                res.json(response);
+            })
+
     }
 
-    function deleteFormByFormId(req,res) {
+    function deleteFormByFormId(req, res) {
         var formId = req.params.formId;
-        var allForms = formModel.deleteFormById(formId);
-        res.json(allForms);
+        formModel
+            .deleteFormById(formId)
+            .then(function (response) {
+                //need allforms by userid
+                formModel
+                    .findAllFormsForUser(response.userId)
+                    .then(function(response2) {
+                        res.json(response2);
+                    });
+            });
+        //res.json(allForms);
     }
 
-    function createForm(req,res) {
+    function createForm(req, res) {
         var userId = req.params.userId;
         var form = req.body;
-        var allForms = formModel.createFormForUser(userId,form);
+        formModel
+            .createFormForUser(userId, form)
+            .then(function (response) {
+                //need allforms by userid
+                //console.log(response);
+                formModel
+                    .findAllFormsForUser(response.userId)
+                    .then(function(response2) {
+                       res.json(response2);
+                    });
+            });
         //console.log(allForms);
-        res.json(allForms);
+        //res.json(allForms);
 
     }
 
-    function updateFormByFormId(req,res) {
+    function updateFormByFormId(req, res) {
         var formId = req.params.formId;
         var newForm = req.body;
-        var form = formModel.updateFormById(formId,newForm);
+        formModel
+            .updateFormById(formId, newForm)
+            .then(function(response) {
+               //need allforms by userid
+                formModel
+                    .findAllFormsForUser(newForm.userId)
+                    .then(function(response2) {
+                        res.json(response2);
+                    });
+            });
         //console.log(form);
-        res.json(form);
+        //res.json(form);
 
     }
 
