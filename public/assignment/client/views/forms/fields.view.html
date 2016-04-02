@@ -76,11 +76,11 @@
 
                     <div class="col-xs-6">
 
-                        <a ng-click="model.editField(field)"><span class="glyphicon glyphicon-pencil"
-                                                                   aria-hidden="true" data-target="#modWindow"
-                                                                   data-toggle="modal"></span></a>
+                        <a ng-click="model.editField(field)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                                                   data-target="#modWindow" data-toggle="modal"></span></a>
                         &nbsp;
-                        <a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                        <a ng-click="model.duplicateField(field,$index)"><span class="glyphicon glyphicon-plus"
+                                                                        aria-hidden="true"></span></a>
                         &nbsp;
                         <a ng-click="model.removeField(field)"><span class="glyphicon glyphicon-remove"
                                                                      aria-hidden="true"></span></a>
@@ -170,7 +170,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
                     <button type="button" ng-click="model.updateField(model.fieldEdit,model.editOptions)"
-                            class="btn btn-default" data-dismiss="modal">OK </button>
+                            class="btn btn-default" data-dismiss="modal">OK
+                    </button>
                 </div>
 
             </div>

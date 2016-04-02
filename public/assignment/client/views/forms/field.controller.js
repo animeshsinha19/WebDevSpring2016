@@ -16,6 +16,7 @@
             vm.removeField = removeField;
             vm.editField = editField;
             vm.updateField = updateField;
+            vm.duplicateField = duplicateField;
 
             vm.draggable = {
                 axis: 'y'
@@ -35,6 +36,14 @@
 
         init();
 
+        function duplicateField(field, index) {
+            FieldService
+                .duplicateFieldForm(vm.formId, index, field)
+                .then(function (response) {
+                    vm.fields = response.data;
+                });
+
+        }
 
         function removeField(field) {
             var index = vm.fields.indexOf(field);
@@ -60,10 +69,11 @@
                     //console.log(response.data);
                 });
         }
+
         function addField(fieldType) {
             var newField;
 
-            if(vm.notSelMenu) {
+            if (vm.notSelMenu) {
                 delete vm.notSelMenu;
                 //console.log("inside not sel menu");
             }
@@ -194,9 +204,9 @@
             }
 
             FieldService
-                .updateField(vm.formId,vm.fieldId,newField)
-                .then(function(response) {
-                   vm.fields = response.data;
+                .updateField(vm.formId, vm.fieldId, newField)
+                .then(function (response) {
+                    vm.fields = response.data;
                 });
 
 

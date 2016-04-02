@@ -9,6 +9,7 @@
         var api = {
 
             updateField: updateField,
+            duplicateFieldForm: duplicateFieldForm,
             createFieldForForm: createFieldForForm,
             getFieldsForForm: getFieldsForForm,
             getFieldForForm: getFieldForForm,
@@ -16,6 +17,10 @@
         };
         return api;
 
+        function duplicateFieldForm(formId, index, field) {
+            //console.log("inside service");
+            return $http.post("/api/assignment/form/" + formId + "/field/" + index, field);
+        }
 
         function updateField(formId, fieldId, field) {
             return $http.put("/api/assignment/form/" + formId + "/field/" + fieldId, field);

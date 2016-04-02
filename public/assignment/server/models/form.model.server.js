@@ -19,7 +19,8 @@ module.exports = function (db, mongoose) {
         createFieldByFormId: createFieldByFormId,
         deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId,
         getFieldByFieldIdAndFormId: getFieldByFieldIdAndFormId,
-        updateFieldByFieldIdAndFormId: updateFieldByFieldIdAndFormId
+        updateFieldByFieldIdAndFormId: updateFieldByFieldIdAndFormId,
+        duplicateField: duplicateField
 
     };
 
@@ -27,6 +28,38 @@ module.exports = function (db, mongoose) {
 
     // Field related API
     // *****************************************************************************
+
+    function duplicateField(formId, index, field) {
+        var deferred = q.defer();
+
+        FormModel.update({_id: formId},
+            {
+                $push: {
+                    fields: field,
+                    $position: index + 1
+
+                }
+            },
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    FormModel
+                        .findById(formId, function (err, doc) {
+                            if (err) {
+                                deferred.reject(err);
+                            } else {
+                                //console.log(doc);
+
+                                deferred.resolve(doc.fields);
+                            }
+                        });
+                }
+            });
+        return deferred.promise;
+
+
+    }
 
     function updateFieldByFieldIdAndFormId(formId, fieldId, field) {
         var deferred = q.defer();

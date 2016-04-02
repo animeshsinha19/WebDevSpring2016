@@ -15,6 +15,23 @@ module.exports = function (app, formModel) {
     // PUT /api/assignment/form/:formId/field/:fieldId
     app.put("/api/assignment/form/:formId/field/:fieldId", updateFieldByFieldIdAndFormId);
 
+    // PUT /api/assignment/form/:formId/field/:indexs
+    app.post("/api/assignment/form/:formId/field/:index", duplicateField);
+
+    function duplicateField(req, res) {
+        var formId = req.params.formId;
+        var index = req.params.index;
+        var field = req.body;
+
+        //console.log("in server side");
+
+        formModel
+            .duplicateField(formId, index, field)
+            .then(function (response) {
+                console.log(response);
+                res.json(response);
+            });
+    }
 
     function updateFieldByFieldIdAndFormId(req, res) {
         var formId = req.params.formId;
