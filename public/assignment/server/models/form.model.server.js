@@ -7,6 +7,7 @@ module.exports = function (db, mongoose) {
     var FormSchema = require('./form.schema.server.js')(mongoose);
     var FormModel = mongoose.model('Form', FormSchema);
 
+
     var api = {
         createFormForUser: createFormForUser,
         findAllFormsForUser: findAllFormsForUser,
@@ -17,13 +18,79 @@ module.exports = function (db, mongoose) {
         getFieldsByFormId: getFieldsByFormId,
         createFieldByFormId: createFieldByFormId,
         deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId,
-        getFieldByFieldIdAndFormId: getFieldByFieldIdAndFormId
+        getFieldByFieldIdAndFormId: getFieldByFieldIdAndFormId,
+        updateFieldByFieldIdAndFormId: updateFieldByFieldIdAndFormId
+
     };
 
     return api;
 
     // Field related API
     // *****************************************************************************
+
+    function updateFieldByFieldIdAndFormId(formId, fieldId, field) {
+        var deferred = q.defer();
+
+        if (field.placeholder) {
+            FormModel
+                .update(
+                    {_id: formId, "fields._id": fieldId},
+                    {
+                        $set: {
+                            "fields.$.label": field.label,
+                            "fields.$.type": field.type,
+                            "fields.$.placeholder": field.placeholder
+                        }
+                    },
+                    function (err, doc) {
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            FormModel
+                                .findById(formId, function (err, doc) {
+                                    if (err) {
+                                        deferred.reject(err);
+                                    } else {
+                                        //console.log(doc);
+                                        deferred.resolve(doc.fields);
+                                    }
+                                });
+
+                        }
+                    }
+                );
+        } else {
+            FormModel
+                .update(
+                    {_id: formId, "fields._id": fieldId},
+                    {
+                        $set: {
+                            "fields.$.label": field.label,
+                            "fields.$.type": field.type,
+                            "fields.$.options": field.options
+                        }
+                    },
+                    function (err, doc) {
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            FormModel
+                                .findById(formId, function (err, doc) {
+                                    if (err) {
+                                        deferred.reject(err);
+                                    } else {
+                                        //console.log(doc);
+                                        deferred.resolve(doc.fields);
+                                    }
+                                });
+                        }
+                    }
+                );
+        }
+
+
+        return deferred.promise;
+    }
 
     function getFieldByFieldIdAndFormId(formId, fieldId) {
 

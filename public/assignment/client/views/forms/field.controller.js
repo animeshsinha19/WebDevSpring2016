@@ -51,19 +51,35 @@
                 });
         }
 
+        function executeAddField(newField) {
+            FieldService
+                .createFieldForForm(vm.formId, newField)
+                .then(function (response) {
+                    vm.fields = response.data;
+                    //console.log(response.data);
+                });
+        }
         function addField(fieldType) {
             var newField;
 
+            if(vm.notSelMenu) {
+                delete vm.notSelMenu;
+                console.log("inside not sel menu");
+            }
+
             if (fieldType == "singleLine") {
                 newField = {"label": "New Text Field", "type": "TEXT", "placeholder": "New Field"};
+                executeAddField(newField);
 
             } else if (fieldType == "password") {
 
                 newField = {"label": "New Password Field", "type": "PASSWORD", "placeholder": "New Password"};
+                executeAddField(newField);
 
             } else if (fieldType == "email") {
 
                 newField = {"label": "New Email Field", "type": "EMAIL", "placeholder": "New Email"};
+                executeAddField(newField);
 
             } else if (fieldType == "dropdown") {
                 newField = {
@@ -73,6 +89,7 @@
                         {"label": "Option 3", "value": "OPTION_3"}
                     ]
                 };
+                executeAddField(newField);
 
             } else if (fieldType == "checkbox") {
                 newField = {
@@ -82,6 +99,7 @@
                         {"label": "Option C", "value": "OPTION_C"}
                     ]
                 };
+                executeAddField(newField);
 
             } else if (fieldType == "radiobtn") {
                 newField = {
@@ -91,25 +109,27 @@
                         {"label": "Option Z", "value": "OPTION_Z"}
                     ]
                 };
+                executeAddField(newField);
 
             } else if (fieldType == "txtField") {
                 newField = {"label": "New Text Field", "type": "TEXTAREA", "placeholder": "New Field"};
+                executeAddField(newField);
 
             } else if (fieldType == "date") {
                 newField = {"label": "New Date Field", "type": "DATE"};
+                executeAddField(newField);
+            } else {
+                vm.notSelMenu = "Please select an option";
+                console.log("inside not sel menu");
             }
 
-            FieldService
-                .createFieldForForm(vm.formId, newField)
-                .then(function (response) {
-                    vm.fields = response.data;
-                    console.log(response.data);
-                });
+
         }
 
         function editField(field) {
-            if (vm.editOptions) {
-                delete vm.editOptions;
+
+            if (vm.showEditOptions) {
+                delete vm.showEditOptions;
                 //console.log("edit options deleted");
             }
             if (vm.editPlaceholder) {
@@ -133,6 +153,7 @@
                         optionString += option.label + " : " + option.value + "\n";
                     });
                 vm.editOptions = optionString;
+                vm.showEditOptions = optionString;
                 //console.log("edit options set");
 
 
@@ -145,14 +166,37 @@
             }
 
             vm.fieldEdit = fieldToBeEdited;
+            vm.fieldId = field._id;
+
             vm.editLabel = fieldToBeEdited.label;
 
         }
 
         function updateField(newField, newOptions) {
-            console.log(newOptions);
-            console.log(newField);
 
+            if (newOptions) {
+                var updatedOptions = [];
+
+                //console.log(newOptions);
+                newOptions = newOptions.trim();
+                var lines = newOptions.split("\n");
+                for (var i = 0; i < lines.length; i++) {
+                    var tempVal = lines[i].split(":");
+                    updatedOptions.push(
+                        {
+                            label: tempVal[0].trim(),
+                            value: tempVal[1].trim()
+                        }
+                    );
+                }
+                newField.options = updatedOptions;
+            }
+
+            FieldService
+                .updateField(vm.formId,vm.fieldId,newField)
+                .then(function(response) {
+                   vm.fields = response.data;
+                });
 
 
         }

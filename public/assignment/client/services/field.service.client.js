@@ -18,7 +18,7 @@
 
 
         function updateField(formId, fieldId, field) {
-            $http.put("/api/assignment/form/" + formId + "/field/" + fieldId, field);
+            return $http.put("/api/assignment/form/" + formId + "/field/" + fieldId, field);
         }
 
         function createFieldForForm(formId, field) {

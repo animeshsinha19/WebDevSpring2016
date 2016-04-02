@@ -15,6 +15,32 @@ module.exports = function (app, formModel) {
     // PUT /api/assignment/form/:formId/field/:fieldId
     app.put("/api/assignment/form/:formId/field/:fieldId", updateFieldByFieldIdAndFormId);
 
+
+    function updateFieldByFieldIdAndFormId(req, res) {
+        var formId = req.params.formId;
+        var fieldId = req.params.fieldId;
+        var newField = req.body;
+
+        formModel
+            .updateFieldByFieldIdAndFormId(formId, fieldId, newField)
+            .then(function (response) {
+                res.json(response);
+            });
+
+        //formModel
+        //    .deleteFieldByFieldIdAndFormId(formId, fieldId)
+        //    .then(function (response) {
+        //
+        //        formModel
+        //            .createFieldByFormId(formId, newField)
+        //            .then(function (response2) {
+        //                res.json(response2);
+        //            });
+        //
+        //    });
+    }
+
+
     function getFieldsByFormId(req, res) {
         var formId = req.params.formId;
         formModel
@@ -61,10 +87,6 @@ module.exports = function (app, formModel) {
             });
         //var allFields = formModel.createFieldByFormId(formId, field);
         //res.json(allFields);
-
-    }
-
-    function updateFieldByFieldIdAndFormId(req, res) {
 
     }
 
