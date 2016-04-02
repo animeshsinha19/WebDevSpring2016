@@ -30,32 +30,41 @@ module.exports = function (db, mongoose) {
     // *****************************************************************************
 
     function duplicateField(formId, index, field) {
+
+        var index = parseInt(index);
+
         var deferred = q.defer();
 
         FormModel.update({_id: formId},
             {
                 $push: {
-                    fields: field,
-                    $position: index + 1
-
+                    fields: {
+                        $each: [field],
+                        $position: index + 1
+                    }
                 }
             },
+
             function (err, doc) {
                 if (err) {
+                    //console.log(err);
                     deferred.reject(err);
                 } else {
                     FormModel
                         .findById(formId, function (err, doc) {
                             if (err) {
+                                //console.log(err);
                                 deferred.reject(err);
+
                             } else {
                                 //console.log(doc);
-
                                 deferred.resolve(doc.fields);
                             }
                         });
                 }
-            });
+            }
+        );
+
         return deferred.promise;
 
 

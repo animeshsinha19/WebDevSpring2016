@@ -37,8 +37,19 @@
         init();
 
         function duplicateField(field, index) {
+
+            var newField = {
+                label: field.label,
+                type: field.type
+            };
+            if (field.placeholder) {
+                newField.placeholder = field.placeholder;
+            } else {
+                newField.options = field.options;
+            }
+
             FieldService
-                .duplicateFieldForm(vm.formId, index, field)
+                .duplicateFieldForm(vm.formId, index, newField)
                 .then(function (response) {
                     vm.fields = response.data;
                 });

@@ -28,8 +28,10 @@ module.exports = function (app, formModel) {
         formModel
             .duplicateField(formId, index, field)
             .then(function (response) {
-                console.log(response);
+                //console.log(response);
                 res.json(response);
+            }, function (err) {
+                res.status(400).send(err);
             });
     }
 
