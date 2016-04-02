@@ -23,7 +23,7 @@
 
                 .then(function (response) {
                     //console.log(response);
-                    if(response.data) {
+                    if(response.data[0]) {
                         $rootScope.newUser = response.data[0];
                         //console.log(response.data[0]);
                         $location.url("/profile");

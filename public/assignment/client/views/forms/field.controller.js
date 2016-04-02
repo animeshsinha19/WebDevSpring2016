@@ -64,7 +64,7 @@
 
             if(vm.notSelMenu) {
                 delete vm.notSelMenu;
-                console.log("inside not sel menu");
+                //console.log("inside not sel menu");
             }
 
             if (fieldType == "singleLine") {
@@ -120,7 +120,7 @@
                 executeAddField(newField);
             } else {
                 vm.notSelMenu = "Please select an option";
-                console.log("inside not sel menu");
+                //console.log("inside not sel menu");
             }
 
 
