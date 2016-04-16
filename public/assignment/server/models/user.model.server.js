@@ -24,7 +24,7 @@ module.exports = function (db, mongoose) {
     function findUserByUsername(username) {
         var deferred = q.defer();
 
-        UserModel.find({username: username}, function (err, doc) {
+        UserModel.findOne({username: username}, function (err, doc) {
             if (err) {
                 deferred.reject(err);
             } else {
@@ -56,16 +56,18 @@ module.exports = function (db, mongoose) {
 
         var deferred = q.defer();
 
-        UserModel.find({
-            username: username,
-            password: password
-        }, function (err, doc) {
-            if (err) {
-                deferred.reject(err);
-            } else {
-                deferred.resolve(doc);
-            }
-        });
+
+        UserModel
+            .findOne({
+                username: username,
+                password: password
+            }, function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            });
 
         return deferred.promise;
 
@@ -96,9 +98,11 @@ module.exports = function (db, mongoose) {
             "lastName": "",
             "username": user.username,
             "password": user.password,
-            "roles": [],
+            "roles": user.roles,
             "emails": [user.email]
         };
+
+        //console.log(newUser);
 
         UserModel.create(newUser, function (err, doc) {
             if (err) {

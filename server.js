@@ -7,7 +7,7 @@ var multer = require('multer');
 // mongoose for mongoDB
 var mongoose = require('mongoose');
 
-// express-session cookie and passport
+// express-session cookie-parser and passport
 var passport      = require('passport');
 var cookieParser  = require('cookie-parser');
 var session       = require('express-session');
@@ -52,6 +52,8 @@ app.get('/hello', function (req, res) {
 });
 
 require("./public/assignment/server/app.js")(app,db,mongoose);
+
+
 require("./public/project_1/server/app.js")(app,db,mongoose);
 
 app.listen(port, ipaddress);

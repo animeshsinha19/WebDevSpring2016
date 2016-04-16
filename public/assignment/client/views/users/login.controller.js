@@ -17,14 +17,16 @@
         function login(user) {
 
             UserService
-                .findUserByCredentials(
-                    user.username,
-                    user.password)
+                //.findUserByCredentials(
+                //    user.username,
+                //    user.password)
+
+                .login(user)
 
                 .then(function (response) {
                     //console.log(response);
-                    if(response.data[0]) {
-                        $rootScope.newUser = response.data[0];
+                    if(response.data) {
+                        $rootScope.newUser = response.data;
                         //console.log(response.data[0]);
                         $location.url("/profile");
                     } else {
