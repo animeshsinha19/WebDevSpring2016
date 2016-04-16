@@ -98,9 +98,14 @@ module.exports = function (db, mongoose) {
             "lastName": "",
             "username": user.username,
             "password": user.password,
-            "roles": user.roles,
-            "emails": [user.email]
+            "roles": user.roles
+
         };
+
+        if (user.email) {
+            newUser.emails = [user.email];
+        }
+
 
         //console.log(newUser);
 

@@ -5,6 +5,8 @@ module.exports = function (app, userModel) {
 
     var auth = authenticated;
     var adminAuth = isAdmin;
+    var loginUser;
+
 
     // POST /api/assignment/user
     app.post("/api/assignment/user", createUser);
@@ -96,16 +98,29 @@ module.exports = function (app, userModel) {
     }
 
     function isAdmin(req, res, next) {
-        if (req.isAuthenticated() && req.user.roles.indexOf('admin') > -1) {
-            next();
+
+        if (req.isAuthenticated()) {
+            if (loginUser.roles.indexOf('admin') > -1) {
+                next();
+            }
         } else {
             res.send(403);
         }
+
+
     }
 
     function register(req, res) {
         var newUser = req.body;
-        newUser.roles = ['student'];
+        if (newUser.roles) {
+            if (newUser.roles.indexOf('student') < 0) {
+                newUser.roles.push('student');
+            }
+
+        } else {
+            newUser.roles = ['student'];
+        }
+
 
         userModel
             .findUserByUsername(newUser.username)
@@ -144,7 +159,7 @@ module.exports = function (app, userModel) {
     }
 
     function login(req, res) {
-
+        loginUser = req.user;
         res.json(req.user);
     }
 
