@@ -53,7 +53,6 @@ app.get('/hello', function (req, res) {
 
 require("./public/assignment/server/app.js")(app,db,mongoose);
 
-
 require("./public/project_1/server/app.js")(app,db,mongoose);
 
 app.listen(port, ipaddress);
