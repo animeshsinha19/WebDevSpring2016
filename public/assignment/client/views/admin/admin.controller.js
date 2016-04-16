@@ -17,7 +17,18 @@
                 UserService
                     .findAllUsers()
                     .then(function (response) {
-                        vm.users = response.data;
+
+                        var allUsers = response.data;
+                        var userlist = [];
+
+                        // find and push all users except the current logged in admin user
+                        for (var i = 0; i < allUsers.length; i++) {
+                            if (allUsers[i].username != $rootScope.newUser.username) {
+                                userlist.push(allUsers[i]);
+                            }
+                        }
+                        vm.users = userlist;
+                        console.log(userlist);
 
                         for (var i = 0; i < vm.users.length; i++) {
                             var user = vm.users[i];
@@ -111,6 +122,12 @@
             if (user.roles) {
                 newUser.roles = user.roles;
             }
+            if(user.firstname) {
+                newUser.firstName = user.firstname;
+            }
+            if(user.lastname) {
+                newUser.lastName = user.lastname;
+            }
 
             UserService
                 .updateUser(vm.tempUserId, newUser)
@@ -120,7 +137,17 @@
                             .findAllUsers()
                             .then(
                                 function (response) {
-                                    vm.users = response.data;
+                                    var allUsers = response.data;
+                                    var userlist = [];
+
+                                    // find and push all users except the current logged in admin user
+                                    for (var i = 0; i < allUsers.length; i++) {
+                                        if (allUsers[i].username != $rootScope.newUser.username) {
+                                            userlist.push(allUsers[i]);
+                                        }
+                                    }
+                                    vm.users = userlist;
+
 
                                     for (var i = 0; i < vm.users.length; i++) {
                                         var user = vm.users[i];
@@ -142,6 +169,8 @@
 
             vm.edituser.username = '';
             vm.edituser.password = '';
+            vm.edituser.firstname = '';
+            vm.edituser.lastname = '';
             vm.edituser.roles = '';
 
         }
@@ -150,6 +179,8 @@
             vm.edituser = {};
             vm.edituser.username = vm.users[index].username;
             vm.edituser.password = vm.users[index].password;
+            vm.edituser.firstname = vm.users[index].firstName;
+            vm.edituser.lastname = vm.users[index].lastName;
             vm.tempUserId = vm.users[index]._id;
 
             var user = vm.users[index];
@@ -175,7 +206,17 @@
                             .findAllUsers()
                             .then(
                                 function (response) {
-                                    vm.users = response.data;
+                                    var allUsers = response.data;
+                                    var userlist = [];
+
+                                    // find and push all users except the current logged in admin user
+                                    for (var i = 0; i < allUsers.length; i++) {
+                                        if (allUsers[i].username != $rootScope.newUser.username) {
+                                            userlist.push(allUsers[i]);
+                                        }
+                                    }
+                                    vm.users = userlist;
+
 
                                     for (var i = 0; i < vm.users.length; i++) {
                                         var user = vm.users[i];
@@ -265,6 +306,12 @@
             if (user.roles) {
                 newUser.roles = user.roles;
             }
+            if(user.firstname) {
+                newUser.firstName = user.firstname;
+            }
+            if(user.lastname) {
+                newUser.lastName = user.lastname;
+            }
 
             if (vm.tempUserId) {
 
@@ -276,7 +323,17 @@
                                 .findAllUsers()
                                 .then(
                                     function (response) {
-                                        vm.users = response.data;
+                                        var allUsers = response.data;
+                                        var userlist = [];
+
+                                        // find and push all users except the current logged in admin user
+                                        for (var i = 0; i < allUsers.length; i++) {
+                                            if (allUsers[i].username != $rootScope.newUser.username) {
+                                                userlist.push(allUsers[i]);
+                                            }
+                                        }
+                                        vm.users = userlist;
+                                        console.log(userlist);
 
                                         for (var i = 0; i < vm.users.length; i++) {
                                             var user = vm.users[i];
@@ -302,7 +359,17 @@
                                 .findAllUsers()
                                 .then(
                                     function (response) {
-                                        vm.users = response.data;
+                                        var allUsers = response.data;
+                                        var userlist = [];
+
+                                        // find and push all users except the current logged in admin user
+                                        for (var i = 0; i < allUsers.length; i++) {
+                                            if (allUsers[i].username != $rootScope.newUser.username) {
+                                                userlist.push(allUsers[i]);
+                                            }
+                                        }
+                                        vm.users = userlist;
+
 
                                         for (var i = 0; i < vm.users.length; i++) {
                                             var user = vm.users[i];
@@ -325,6 +392,8 @@
 
             vm.edituser.username = '';
             vm.edituser.password = '';
+            vm.edituser.firstname = '';
+            vm.edituser.lastname = '';
             vm.edituser.roles = '';
 
 
