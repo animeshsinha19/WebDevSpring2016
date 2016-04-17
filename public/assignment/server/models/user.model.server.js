@@ -56,7 +56,6 @@ module.exports = function (db, mongoose) {
 
         var deferred = q.defer();
 
-
         UserModel
             .findOne({
                 username: username,

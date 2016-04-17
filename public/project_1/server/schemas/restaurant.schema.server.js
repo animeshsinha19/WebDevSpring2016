@@ -1,4 +1,4 @@
-model.exports = function(mongoose) {
+module.exports = function(mongoose) {
 
     var restaurantSchema = mongoose.Schema(
         {

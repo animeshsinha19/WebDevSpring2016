@@ -4,7 +4,7 @@
         .module("ProjectApp")
         .controller("registerController", RegisterController);
 
-    function RegisterController($scope, $rootScope, $location, UserService) {
+    function RegisterController($rootScope, $location, UserService) {
 
         var vm = this;
 
@@ -17,10 +17,12 @@
         function register(user) {
 
             var userBasicInfo = {
-                name: user.username,
+                username: user.username,
                 password: user.userpass,
                 email: user.useremail
             };
+
+
 
             UserService
                 .createUser(userBasicInfo)
@@ -29,6 +31,7 @@
                 });
 
             $location.url("/profile");
+
         }
 
     }

@@ -23,11 +23,26 @@ module.exports = function (app, userModel) {
 
 
     function createUser(req, res) {
-        var user = req.body;
+        var newUser = req.body;
 
-        var newAllUsers = userModel.createUser(user);
+        if (newUser.roles) {
+            if (newUser.roles.indexOf('normal') < 0) {
+                newUser.roles.push('normal');
+            }
 
-        res.json(newAllUsers);
+        } else {
+            newUser.roles = ['normal'];
+        }
+
+        //console.log(newUser);
+
+        userModel
+            .createUser(newUser)
+            .then(function(response){
+                res.json(response);
+            });
+
+
 
     }
 
@@ -37,7 +52,11 @@ module.exports = function (app, userModel) {
         } else if (req.query.username) {
             getUserByUsername(req, res);
         } else {
-            res.json(userModel.findAllUsers());
+            userModel
+                .findAllUsers()
+                .then(function (response) {
+                    res.json(response);
+                });
         }
 
     }
@@ -58,9 +77,15 @@ module.exports = function (app, userModel) {
         var username = req.query.username;
         var password = req.query.password;
 
-        var foundUser = userModel.findUserByCredentials(username,password);
+        userModel
+            .findUserByCredentials(username, password)
+            .then(function (response) {
+                    res.json(response);
+                }, function (err) {
+                    res.status(400).send();
+                }
+            );
 
-        res.json(foundUser);
 
     }
 
@@ -68,9 +93,14 @@ module.exports = function (app, userModel) {
         var userId = req.params.id;
         var user = req.body;
 
-        var updatedUser = userModel.updateUser(userId, user);
+        userModel
+            .updateUser(userId, user)
+            .then(function (response) {
+                res.json(response);
+            }, function (err) {
+                res.status(400).send();
+            });
 
-        res.json(updatedUser);
 
     }
 

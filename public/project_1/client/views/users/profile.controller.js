@@ -12,7 +12,6 @@
             vm.update = update;
 
             var newUser = $rootScope.newUser;
-            //console.log(newUser);
 
             vm.username = newUser.username;
             vm.password = newUser.password;
@@ -34,6 +33,7 @@
                 "firstName": user.firstname,
                 "lastName": user.lastname
             };
+
 
             UserService
                 .updateUser(

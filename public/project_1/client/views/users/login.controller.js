@@ -10,9 +10,8 @@
         function init() {
             vm.login = login;
         }
+
         init();
-
-
 
         function login(user) {
             var loggedUser;
@@ -34,13 +33,7 @@
 
                 });
 
-
-
-
         }
-
-
-
 
     }
 })();
