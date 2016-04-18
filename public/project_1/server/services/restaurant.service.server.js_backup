@@ -1,4 +1,4 @@
-module.exports = function (app, restaurantModel) {
+module.exports = function (app, restaurantModel, userModel) {
 
     // GET /api/project_1/user/:userId/restaurants
     app.get("/api/project_1/user/:userId/restaurants", getLikedRestaurantsForUser);
@@ -7,22 +7,23 @@ module.exports = function (app, restaurantModel) {
     app.get("/api/project_1/user/restaurants", getAllLikedRestaurantsForAllUsers);
 
     // GET /api/project_1/restaurant/:restaurantId/user
-    app.get("/api/project_1/restaurant/:restaurantId/user", getAllLikedRestaurantsByRestaurantId);
+    app.get("/api/project_1/restaurant/:restaurantId/user", getAllUsersByRestaurantId);
 
     // GET /api/project_1/user/:userId/restaurant/:restaurantId
     app.get("/api/project_1/user/:userId/restaurant/:restaurantId", getLikedRestaurantForUser);
 
     // POST /api/project_1/user/:userId/restaurant/:restaurantId
-    app.post("/api/project_1/user/:userId/restaurant/:restaurantId", createLikedRestaurantForUser);
+    app.post("/api/project_1/user/:userId/restaurant", createLikedRestaurantForUser);
 
     // DELETE /api/project_1/user/:userId/restaurant/:restaurantId
     app.delete("/api/project_1/user/:userId/restaurant/:restaurantId", deleteLikedRestaurantForUser);
 
 
-    function getAllLikedRestaurantsByRestaurantId(req,res) {
+    function getAllUsersByRestaurantId(req, res) {
         var restaurantId = req.params.restaurantId;
-        var restaurants = restaurantModel.getLikedRestaurantsByRestaurantId(restaurantId);
-        res.json(restaurants);
+        var users = restaurantModel.getAllUsersByRestaurantId(restaurantId);
+        console.log(users);
+        res.json(users);
     }
 
     function getLikedRestaurantForUser(req, res) {
@@ -59,13 +60,14 @@ module.exports = function (app, restaurantModel) {
 
     function createLikedRestaurantForUser(req, res) {
         var userId = req.params.userId;
-        var restaurantId = req.params.restaurantId;
+        var newRestaurant = req.body;
 
-        var restaurants = restaurantModel.setRestaurantAsLikedForUser(userId, restaurantId);
+        return restaurantModel.setRestaurantAsLikedForUser(userId, newRestaurant);
+
 
         //console.log(restaurants);
 
-        res.json(restaurants);
+        //res.json(restaurants);
 
     }
 

@@ -22,6 +22,25 @@ module.exports = function (app, userModel) {
     app.delete("/api/project_1/user/:id", deleteUserById);
 
 
+    // GET /api/project_1/user/:userId/restaurants
+    app.get("/api/project_1/user/:userId/restaurants", getLikedRestaurantsForUser);
+
+    // GET /api/project_1/user/restaurants
+    app.get("/api/project_1/user/restaurants", getAllLikedRestaurantsForAllUsers);
+
+    // GET /api/project_1/restaurant/:restaurantId/user
+    app.get("/api/project_1/restaurant/:restaurantId/user", getAllUsersByRestaurantId);
+
+    // GET /api/project_1/user/:userId/restaurant/:restaurantId
+    app.get("/api/project_1/user/:userId/restaurant/:restaurantId", getLikedRestaurantForUser);
+
+    // POST /api/project_1/user/:userId/restaurant/:restaurantId
+    app.post("/api/project_1/user/:userId/restaurant", createLikedRestaurantForUser);
+
+    // DELETE /api/project_1/user/:userId/restaurant/:restaurantId
+    app.delete("/api/project_1/user/:userId/restaurant/:restaurantId", deleteLikedRestaurantForUser);
+
+
     function createUser(req, res) {
         var newUser = req.body;
 
@@ -38,10 +57,9 @@ module.exports = function (app, userModel) {
 
         userModel
             .createUser(newUser)
-            .then(function(response){
+            .then(function (response) {
                 res.json(response);
             });
-
 
 
     }
@@ -109,4 +127,93 @@ module.exports = function (app, userModel) {
         var newAllUserAfterDelete = userModel.deleteUserById(userId);
         res.json(newAllUserAfterDelete);
     }
+
+
+    function getAllUsersByRestaurantId(req, res) {
+        var restaurantId = req.params.restaurantId;
+        userModel
+            .getAllUsersByRestaurantId(restaurantId)
+            .then(function (response) {
+                res.json(response);
+            });
+
+
+    }
+
+    function getLikedRestaurantForUser(req, res) {
+        var userId = req.params.userId;
+        var restaurantId = req.params.restaurantId;
+
+
+        userModel
+            .getLikedRestaurantForUser(userId, restaurantId)
+            .then(function (response) {
+                res.json(response);
+            }, function (error) {
+                //console.log("here");
+                res.json(null);
+            });
+
+        //console.log(restaurant);
+
+        //res.json(restaurant);
+    }
+
+    function getLikedRestaurantsForUser(req, res) {
+        var userId = req.params.userId;
+
+        userModel
+            .getLikedRestaurantsForUser(userId)
+            .then(function(response) {
+               res.json(response);
+            });
+
+        //res.json(likedRestaurants);
+    }
+
+    function getAllLikedRestaurantsForAllUsers(req, res) {
+        res.json(restaurantModel.getAllLikedRestaurants());
+    }
+
+    function getAllLikedRestaurants(req, res) {
+        var restaurantId = req.params.restaurantId;
+
+        var restaurants = restaurantModel.getLikedRestaurantsByRestaurantId(restaurantId);
+
+        res.json(restaurants);
+
+    }
+
+    function createLikedRestaurantForUser(req, res) {
+        var userId = req.params.userId;
+        var newRestaurant = req.body;
+
+        userModel
+            .setRestaurantAsLikedForUser(userId, newRestaurant)
+            .then(function(response){
+                res.json(response);
+            });
+
+
+        //console.log(restaurants);
+
+        //res.json(restaurants);
+
+    }
+
+    function deleteLikedRestaurantForUser(req, res) {
+        var userId = req.params.userId;
+        var restaurantId = req.params.restaurantId;
+        userModel
+            .deleteLikedRestaurantForUser(userId, restaurantId)
+            .then(function(response) {
+                res.json(response);
+            });
+
+
+        //console.log(restaurants);
+
+
+    }
+
 };

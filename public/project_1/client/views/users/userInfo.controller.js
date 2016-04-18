@@ -24,11 +24,18 @@
                 getRestaurantDetails(response.data);
             });
 
-        function getRestaurantDetails(userLikedRestaurants) {
+        function getRestaurantDetails(restaurants) {
             // just get the restaurant IDs for now
-            for (var i = 0; i < userLikedRestaurants.length; i++) {
-                vm.restaurants.push(userLikedRestaurants[i].restaurantId);
+
+            //vm.restaurants
+
+            if (restaurants) {
+                for (var i = 0; i < restaurants.length; i++) {
+                    vm.restaurants.push(restaurants[i].yelpID);
+
+                }
             }
+
         }
 
 
