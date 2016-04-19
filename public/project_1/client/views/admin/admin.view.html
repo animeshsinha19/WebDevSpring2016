@@ -52,7 +52,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="user in model.users">
-            <td>{{user.username}}</td>
+            <td><a href="#/comments/{{user._id}}">{{user.username}}</a> </td>
             <td></td>
             <td>{{user.firstName}}</td>
             <td>{{user.lastName}}</td>

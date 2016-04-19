@@ -11,7 +11,9 @@
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
-            updateUser: updateUser
+            updateUser: updateUser,
+            findUserById: findUserById
+
 
 
         };
@@ -19,7 +21,9 @@
         return api;
 
 
-
+        function findUserById(userId) {
+            return $http.get("/api/project_1/user/" + userId);
+        }
 
         function findUserByCredentials(username, password) {
             return $http.get("/api/project_1/user?username=" + username + "&password=" + password);

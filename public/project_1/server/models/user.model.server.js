@@ -24,7 +24,8 @@ module.exports = function (db, mongoose) {
         getAllUsersByRestaurantId: getAllUsersByRestaurantId,
         getLikedRestaurantForUser: getLikedRestaurantForUser,
         createCommentForUser: createCommentForUser,
-        getUserComments: getUserComments
+        getUserComments: getUserComments,
+        deleteUserComment: deleteUserComment
     };
 
     return api;
@@ -32,7 +33,6 @@ module.exports = function (db, mongoose) {
 
     function findUserById(userId) {
         var deferred = q.defer();
-
 
         userModel
             .findOne({
@@ -706,8 +706,8 @@ module.exports = function (db, mongoose) {
         var deferred = q.defer();
 
         userModel
-            .find(function(err,docs) {
-                if(err) {
+            .find(function (err, docs) {
+                if (err) {
                     deferred.reject(err);
                 } else {
                     deferred.resolve(docs);
@@ -716,6 +716,126 @@ module.exports = function (db, mongoose) {
 
         return deferred.promise;
 
+    }
+
+    function deleteUserComment(restaurantName, userId, comment) {
+        var deferred = q.defer();
+
+        userModel
+            .findOne({_id: userId},
+                function (err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        var user = doc;
+
+
+                        //var restaurantObj = {
+                        //    yelpID: restaurantId,
+                        //    name: restaurantName,
+                        //    address: address
+                        //};
+
+
+                        var commentObj = {};
+
+                        var restaurantFound = 0;
+
+                        var commentID = 0;
+
+                        for (var i = 0; i < user.comments.length; i++) {
+                            if (user.comments[i].restaurant.name == restaurantName) {
+
+                                restaurantFound = 1;
+                                commentID = user.comments[i]._id;
+
+                                var restaurantObj = {
+                                    yelpID: user.comments[i].restaurant.yelpID,
+                                    name: user.comments[i].restaurant.name,
+                                    address: user.comments[i].restaurant.address
+                                };
+
+
+                                commentObj.restaurant = restaurantObj;
+                                commentObj.comments = [];
+
+
+                                for (var j = 0; j < user.comments[i].comments.length; j++) {
+                                    if (user.comments[i].comments[j] != comment) {
+                                        commentObj.comments.push(user.comments[i].comments[j]);
+                                    }
+
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (restaurantFound == 1) {
+                            userModel
+                                .update({_id: userId},
+                                    {$pull: {comments: {_id: commentID}}},
+                                    function (err, doc) {
+                                        if (err) {
+                                            deferred.reject(err);
+                                        } else {
+                                            userModel.update(
+                                                {_id: userId},
+                                                {$push: {comments: commentObj}},
+                                                function (err, doc) {
+                                                    if (err) {
+                                                        deferred.reject(err);
+                                                    } else {
+                                                        userModel
+                                                            .findOne({_id: userId}, function (err, doc) {
+                                                                if (err) {
+                                                                    deferred.reject(err);
+                                                                } else {
+                                                                    var user = doc;
+                                                                    var restaurantDeleted = 0;
+                                                                    for (var i = 0; i < user.comments.length; i++) {
+                                                                        if (user.comments[i].comments.length == 0) {
+                                                                            restaurantDeleted = 1;
+                                                                            var commentId = user.comments[i]._id;
+                                                                            userModel
+                                                                                .update({_id: userId},
+                                                                                    {$pull: {comments: {_id: commentId}}},
+                                                                                    function (err, doc) {
+                                                                                        if (err) {
+                                                                                            deferred.reject(err);
+                                                                                        } else {
+                                                                                            userModel
+                                                                                                .findOne({_id: userId},
+                                                                                                    function (err, doc) {
+                                                                                                        if (err) {
+                                                                                                            deferred.reject(err);
+
+                                                                                                        } else {
+                                                                                                            deferred.resolve(doc);
+                                                                                                        }
+                                                                                                    });
+                                                                                        }
+                                                                                    });
+                                                                            break;
+                                                                        }
+                                                                    }
+
+                                                                    if(restaurantDeleted == 0) {
+                                                                        deferred.resolve(doc);
+                                                                    }
+
+                                                                }
+                                                            });
+                                                    }
+                                                });
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
+        return deferred.promise;
     }
 
 };

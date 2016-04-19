@@ -18,6 +18,7 @@
             getLikedRestaurantsForUser: getLikedRestaurantsForUser,
             getAllUsersByRestaurantId: getAllUsersByRestaurantId,
             postCommentByUser: postCommentByUser,
+            deleteCommentByUser: deleteCommentByUser,
             getUserComments: getUserComments
             //searchByTerm: searchByTerm,
             //
@@ -25,6 +26,10 @@
             //searchByNumberAndTerm: searchByNumberAndTerm
         };
         return api;
+
+        function deleteCommentByUser(userId, restaurantName, comment) {
+            return $http.delete("/api/project_1/restaurant/" + restaurantName + "/user/" + userId + "/comment/" + comment);
+        }
 
         function getUserComments() {
             return $http.get("/api/project_1/restaurant/comments");

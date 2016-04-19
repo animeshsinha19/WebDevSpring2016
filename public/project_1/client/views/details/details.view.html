@@ -89,7 +89,8 @@
 
 <div class="row" ng-show="newUser">
     <h3>Comment about the restaurant</h3>
-    <textarea ng-model="model.comments" class="form-control"></textarea>
+    <textarea ng-model="model.comments" class="form-control"></textarea> &nbsp; <br>
+    <label class="label-danger">{{model.error}}</label>
     <br>
     <button ng-click="model.comment(model.comments)" class="btn btn-block btn-primary">Comment</button>
 
@@ -110,10 +111,7 @@
     </div>
 
 
-
-
 </div>
-
 
 
 <br><br>

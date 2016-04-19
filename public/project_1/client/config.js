@@ -52,8 +52,13 @@
                 controllerAs: "model"
             })
             .when("/admin", {
-                templateUrl: "views/users/admin.view.html",
+                templateUrl: "views/admin/admin.view.html",
                 controller: "adminController",
+                controllerAs: "model"
+            })
+            .when("/comments/:id", {
+                templateUrl: "views/admin/deletecomment.view.html",
+                controller: "commentController",
                 controllerAs: "model"
             })
             //.when("/search/:title", {

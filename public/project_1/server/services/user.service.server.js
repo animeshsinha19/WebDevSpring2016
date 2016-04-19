@@ -1,26 +1,29 @@
 module.exports = function (app, userModel) {
 
-    // POST /api/assignment/user
+    // POST /api/project_1/user
     app.post("/api/project_1/user", createUser);
 
-    // GET /api/assignment/user
+    // GET /api/project_1/user
     app.get("/api/project_1/user", getAllUsers);
 
-    // GET /api/assignment/user/:id
+    // GET /api/project_1/user/:id
     app.get("/api/project_1/user/:id", getUserById);
 
-    // GET /api/assignment/user?username=:username
+    // GET /api/project_1/user?username=:username
     app.get("/api/project_1/user?username=:username", getUserByUsername);
 
-    // GET /api/assignment/user?username=:username&password=:password
+    // GET /api/project_1/user?username=:username&password=:password
     app.get("/api/project_1/user?username=:username&password=:password", getUserByCredentials);
 
-    // PUT /api/assignment/user/:id
+    // PUT /api/project_1/user/:id
     app.put("/api/project_1/user/:id", updateUserById);
 
-    // DELETE /api/assignment/user/:id
+    // DELETE /api/project_1/user/:id
     app.delete("/api/project_1/user/:id", deleteUserById);
 
+
+    // DELETE /api/project_1/restaurant/:restaurantName/user/:userId/comment/:comment
+    app.delete("/api/project_1/restaurant/:restaurantName/user/:userId/comment/:comment", deleteUserComment);
 
     // GET /api/project_1/restaurant/comments
     app.get("/api/project_1/restaurant/comments", getUserComments);
@@ -87,8 +90,15 @@ module.exports = function (app, userModel) {
 
     function getUserById(req, res) {
         var userId = req.params.id;
-        var user = userModel.findUserById(userId);
-        res.json(user);
+
+        userModel
+            .findUserById(userId)
+            .then(function (response) {
+
+                res.json(response);
+            });
+
+
     }
 
     function getUserByUsername(req, res) {
@@ -241,11 +251,24 @@ module.exports = function (app, userModel) {
 
     }
 
-    function getUserComments(req,res) {
+    function getUserComments(req, res) {
         userModel
             .getUserComments()
-            .then(function(response) {
-               res.json(response);
+            .then(function (response) {
+                res.json(response);
+            });
+    }
+
+    function deleteUserComment(req, res) {
+        var restaurantName = req.params.restaurantName;
+        var userId = req.params.userId;
+        var comment = req.params.comment;
+
+        userModel
+            .deleteUserComment(restaurantName, userId, comment)
+            .then(function (response) {
+                //console.log("here");
+                res.json(response);
             });
     }
 

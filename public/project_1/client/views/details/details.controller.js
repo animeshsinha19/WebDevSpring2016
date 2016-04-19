@@ -66,6 +66,14 @@
 
         function comment(comments) {
 
+            if(comments == "" || comments == null) {
+                vm.error = "Please enter some text";
+                return;
+            } else {
+                vm.error = null;
+
+            }
+
             vm.comments = "";
 
             var commentDetails = {
