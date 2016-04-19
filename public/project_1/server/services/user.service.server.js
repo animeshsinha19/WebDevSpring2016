@@ -22,6 +22,12 @@ module.exports = function (app, userModel) {
     app.delete("/api/project_1/user/:id", deleteUserById);
 
 
+    // GET /api/project_1/restaurant/comments
+    app.get("/api/project_1/restaurant/comments", getUserComments);
+
+    // POST /api/project_1/restaurant/comment
+    app.post("/api/project_1/restaurant/comment", createCommentForUser);
+
     // GET /api/project_1/user/:userId/restaurants
     app.get("/api/project_1/user/:userId/restaurants", getLikedRestaurantsForUser);
 
@@ -164,8 +170,8 @@ module.exports = function (app, userModel) {
 
         userModel
             .getLikedRestaurantsForUser(userId)
-            .then(function(response) {
-               res.json(response);
+            .then(function (response) {
+                res.json(response);
             });
 
         //res.json(likedRestaurants);
@@ -190,7 +196,7 @@ module.exports = function (app, userModel) {
 
         userModel
             .setRestaurantAsLikedForUser(userId, newRestaurant)
-            .then(function(response){
+            .then(function (response) {
                 res.json(response);
             });
 
@@ -206,7 +212,7 @@ module.exports = function (app, userModel) {
         var restaurantId = req.params.restaurantId;
         userModel
             .deleteLikedRestaurantForUser(userId, restaurantId)
-            .then(function(response) {
+            .then(function (response) {
                 res.json(response);
             });
 
@@ -214,6 +220,33 @@ module.exports = function (app, userModel) {
         //console.log(restaurants);
 
 
+    }
+
+    function createCommentForUser(req, res) {
+        var commentObj = req.body;
+
+
+        var userId = commentObj.userId;
+        var yelpId = commentObj.yelpId;
+        var comments = commentObj.comments;
+        var restaurantName = commentObj.restaurantName;
+        var address = commentObj.address;
+
+        userModel
+            .createCommentForUser(userId, yelpId, comments, restaurantName, address)
+            .then(function (response) {
+                res.json(response);
+            });
+
+
+    }
+
+    function getUserComments(req,res) {
+        userModel
+            .getUserComments()
+            .then(function(response) {
+               res.json(response);
+            });
     }
 
 };

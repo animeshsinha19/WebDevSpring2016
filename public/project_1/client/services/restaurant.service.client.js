@@ -16,14 +16,23 @@
             deleteLikedRestaurantForUser: deleteLikedRestaurantForUser,
             createLikedRestaurantForUser: createLikedRestaurantForUser,
             getLikedRestaurantsForUser: getLikedRestaurantsForUser,
-            getAllUsersByRestaurantId: getAllUsersByRestaurantId
-
+            getAllUsersByRestaurantId: getAllUsersByRestaurantId,
+            postCommentByUser: postCommentByUser,
+            getUserComments: getUserComments
             //searchByTerm: searchByTerm,
             //
             //searchByTermAndPlace: searchByTermAndPlace,
             //searchByNumberAndTerm: searchByNumberAndTerm
         };
         return api;
+
+        function getUserComments() {
+            return $http.get("/api/project_1/restaurant/comments");
+        }
+
+        function postCommentByUser(obj) {
+            return $http.post("/api/project_1/restaurant/comment", obj);
+        }
 
         function getAllUsersByRestaurantId(restaurantId) {
             return $http.get("/api/project_1/restaurant/" + restaurantId + "/user");

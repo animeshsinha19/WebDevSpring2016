@@ -9,12 +9,118 @@
 
         function init() {
             vm.likebtn = likebtn;
+            vm.comment = comment;
+
             getLikes();
             getLikedGlyph();
             getRestaurantData();
+            userComments();
         }
 
         init();
+
+        function userComments() {
+
+
+            RestaurantService
+                .getUserComments()
+                .then(function(response) {
+
+                    vm.allComments = [];
+
+                    var users = response.data;
+
+                    var commentsOnRestaurant = [];
+
+                    for (var i = 0; i < users.length; i++) {
+
+                        var commentObj = users[i].comments;
+
+                        for (var j = 0; j < commentObj.length; j++) {
+
+                            if (commentObj[j].restaurant.yelpID == yelpId) {
+
+                                var comment = commentObj[j].comments;
+
+                                for (var k = 0; k < comment.length; k++) {
+
+                                    var comments = {};
+
+                                    comments.firstname = users[i].firstName;
+
+                                    comments.comments = comment[k];
+
+                                    commentsOnRestaurant.push(comments);
+
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    vm.allComments = commentsOnRestaurant;
+
+                });
+        }
+
+        function comment(comments) {
+
+            vm.comments = "";
+
+            var commentDetails = {
+                comments: comments,
+                yelpId: yelpId,
+                restaurantName: vm.restaurantName,
+                address: vm.address,
+                userId: $rootScope.newUser._id
+            };
+
+            //console.log(commentDetails);
+
+            RestaurantService
+                .postCommentByUser(commentDetails)
+                .then(function (response) {
+                    vm.allComments = [];
+
+                    var users = response.data;
+
+                    var commentsOnRestaurant = [];
+
+                    for (var i = 0; i < users.length; i++) {
+
+                        var commentObj = users[i].comments;
+
+                        for (var j = 0; j < commentObj.length; j++) {
+
+                            if (commentObj[j].restaurant.yelpID == yelpId) {
+
+                                var comment = commentObj[j].comments;
+
+                                for (var k = 0; k < comment.length; k++) {
+
+                                    var comments = {};
+
+                                    comments.firstname = users[i].firstName;
+
+                                    comments.comments = comment[k];
+
+                                    commentsOnRestaurant.push(comments);
+
+                                }
+
+                            }
+                        }
+
+                    }
+
+                    vm.allComments = commentsOnRestaurant;
+
+                });
+
+
+        }
+
 
         function getRestaurantData() {
             RestaurantService
@@ -85,51 +191,9 @@
                     }
                     vm.firstNames = firstnames;
 
-                    //console.log(firstnames);
-                    console.log(response.data);
-                    //var userIds = getUserIds(response.data);
-                    //
-                    //getUserNamesFromIds(userIds);
                 });
         }
 
-        //function getUserNamesFromIds(userIds) {
-        //    UserService
-        //        .findAllUsers()
-        //        .then(function (response) {
-        //            vm.firstNames = getUserNames(response.data, userIds);
-        //            //console.log(vm.firstNames);
-        //        });
-        //}
-        //
-        //function getUserIds(users) {
-        //    var userIds = [];
-        //
-        //    for (var i = 0; i < users.length; i++) {
-        //        userIds.push(users[i]._id);
-        //    }
-        //
-        //    return userIds;
-        //}
-        //
-        //function getUserNames(allUsers, userIds) {
-        //    var userNames = [];
-        //
-        //    for (var i = 0; i < userIds.length; i++) {
-        //        for (var j = 0; j < allUsers.length; j++) {
-        //
-        //            if (userIds[i] == allUsers[j]._id) {
-        //
-        //                //console.log("here");
-        //
-        //                userNames.push(allUsers[j].firstName);
-        //            }
-        //        }
-        //    }
-        //    //console.log(userNames);
-        //
-        //    return userNames;
-        //}
 
 
     }

@@ -1,6 +1,7 @@
 .glyphicon {
     font-size: xx-large;
 }
+
 .glyphicon-triangle-bottom {
     font-size: small;
 }
@@ -11,4 +12,30 @@
 
 .no-wrap {
     white-space: nowrap;
+}
+
+
+.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
+    color: red;
+}
+.navbar-inverse .navbar-brand {
+    color: black;
+}
+#myHeader {
+    background-color: darkred;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: black;
+}
+
+#backColor {
+    background-color: azure;
+
+}
+
+#alignCenter {
+    margin: auto;
+    width: 60%;
+
+    /*padding: 10px;*/
 }

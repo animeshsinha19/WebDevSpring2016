@@ -22,8 +22,9 @@ module.exports = function (db, mongoose) {
         getAllLikedRestaurants: getAllLikedRestaurants,
         deleteLikedRestaurantForUser: deleteLikedRestaurantForUser,
         getAllUsersByRestaurantId: getAllUsersByRestaurantId,
-        getLikedRestaurantForUser: getLikedRestaurantForUser
-
+        getLikedRestaurantForUser: getLikedRestaurantForUser,
+        createCommentForUser: createCommentForUser,
+        getUserComments: getUserComments
     };
 
     return api;
@@ -558,5 +559,163 @@ module.exports = function (db, mongoose) {
         //return getLikedRestaurantsForUser(userId);
     }
 
+    function createCommentForUser(userId, restaurantId, comment, restaurantName, address) {
+        var deferred = q.defer();
+
+
+        userModel
+            .findOne({_id: userId},
+                function (err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        var user = doc;
+
+
+                        var restaurantObj = {
+                            yelpID: restaurantId,
+                            name: restaurantName,
+                            address: address
+                        };
+
+
+                        var commentObj = {
+                            restaurant: restaurantObj,
+                            comments: []
+                        };
+
+                        var restaurantFound = 0;
+
+                        var commentID = 0;
+
+                        for (var i = 0; i < user.comments.length; i++) {
+                            if (user.comments[i].restaurant.yelpID == restaurantId) {
+
+                                restaurantFound = 1;
+                                commentID = user.comments[i]._id;
+
+                                for (var j = 0; j < user.comments[i].comments.length; j++) {
+                                    commentObj.comments.push(user.comments[i].comments[j]);
+                                }
+
+                                commentObj.comments.push(comment);
+                                break;
+                            }
+                        }
+
+                        if (restaurantFound == 1) {
+                            userModel
+                                .update({_id: userId},
+                                    {$pull: {comments: {_id: commentID}}},
+                                    function (err, doc) {
+                                        if (err) {
+                                            deferred.reject(err);
+                                        } else {
+                                            userModel.update(
+                                                {_id: userId},
+                                                {$push: {comments: commentObj}},
+                                                function (err, doc) {
+                                                    if (err) {
+                                                        deferred.reject(err);
+                                                    } else {
+                                                        userModel
+                                                            .find(function (err, doc) {
+                                                                if (err) {
+                                                                    deferred.reject(err);
+                                                                } else {
+                                                                    //console.log(doc);
+                                                                    deferred.resolve(doc);
+                                                                }
+                                                            });
+                                                    }
+                                                });
+                                        }
+                                    });
+                        } else {
+                            commentObj.comments.push(comment);
+
+                            userModel.update(
+                                {_id: userId},
+                                {$push: {comments: commentObj}},
+                                function (err, doc) {
+                                    if (err) {
+                                        deferred.reject(err);
+                                    } else {
+                                        userModel
+                                            .find(function (err, doc) {
+                                                if (err) {
+                                                    deferred.reject(err);
+                                                } else {
+                                                    //console.log(doc);
+                                                    deferred.resolve(doc);
+                                                }
+                                            });
+                                    }
+                                });
+                        }
+
+
+                        //if (user.comments.restaurant.yelpID == restaurantId) {
+                        //    for (var i = 0; i < user.comments.comments; i++) {
+                        //        commentObj.comments.push(user.comments.comments[i]);
+                        //    }
+                        //
+                        //    commentObj.comments.push(comment);
+                        //
+                        //    //console.log(user.comments[0].restaurant.yelpID);
+                        //
+                        //
+                        //} else {
+                        //
+                        //}
+
+
+                        //user.comments = [commentObj];
+                        //
+                        //userModel
+                        //    .update({_id: userId}, {$set: user}, function (err, doc) {
+                        //        if (err) {
+                        //            deferred.reject(err);
+                        //        } else {
+                        //
+                        //            userModel.findOne({_id: userId}, function (err, doc) {
+                        //                if (err) {
+                        //                    deferred.reject(err);
+                        //                } else {
+                        //                    console.log(doc);
+                        //
+                        //                    deferred.resolve(doc);
+                        //                }
+                        //            });
+                        //
+                        //        }
+                        //
+                        //    });
+
+
+                    }
+                }
+            );
+
+
+        return deferred.promise;
+    }
+
+
+    function getUserComments() {
+        var deferred = q.defer();
+
+        userModel
+            .find(function(err,docs) {
+                if(err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(docs);
+                }
+            });
+
+        return deferred.promise;
+
+    }
 
 };
