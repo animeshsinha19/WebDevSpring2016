@@ -1,36 +1,52 @@
+<div class="row">
+    <h3>Search Results</h3>
+</div>
+<hr>
 
-<h3>Search Results</h3>
+<div class="row">
+
+    <div class="col-xs-4">
+        <div class="row">
+            <h4>Name</h4>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="row">
+            <h4>Speciality</h4>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="row">
+            <h4>Ratings</h4>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<div class="row" ng-repeat="restaurant in model.restaurants">
+
+    <div class="col-xs-4">
+        <br>
+        <div class="row">
+            <img ng-src="{{restaurant.image_url}}"/>
+        </div>
+        <br>
+
+        <div class="row">
+            <a href="#/details/{{restaurant.id}}">{{restaurant.name}}</a>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <br>
+        {{restaurant.categories[0][0]}}
+    </div>
+    <div class="col-xs-4">
+        <br>
+        <img ng-src="{{restaurant.rating_img_url_large}}"/>
+    </div>
 
 
-<div class="table-responsive">
-    <table class="table table-responsive table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Speciality</th>
-            <th>Rating</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="restaurant in model.restaurants">
-            <td>
-                <img ng-src="{{restaurant.image_url}}"/>
-                <br><br>
-                <!--<a href="#/detail/{{movie.imdbID}}">-->
-                    <!--{{movie.Title}}</a>-->
-                <a href="#/details/{{restaurant.id}}">
-                    {{restaurant.name}}</a>
-            </td>
-            <!--<td ng-repeat="category in restaurant.categories">-->
-                <!--{{category}}-->
-            <td>
-                {{restaurant.categories[0][0]}}
-            </td>
-            <td>
-                <img  ng-src="{{restaurant.rating_img_url_large}}"/>
-            </td>
 
-        </tr>
-        </tbody>
-    </table>
 </div>
