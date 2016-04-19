@@ -25,6 +25,7 @@
 
 
         function update(user) {
+
             var updatedUser = {
                 "_id": $rootScope.newUser._id,
                 "username": user.username,

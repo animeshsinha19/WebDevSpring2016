@@ -28,7 +28,7 @@
                 .createUser(userBasicInfo)
                 .then(function (response) {
                     $rootScope.newUser = response.data;
-                    console.lgo
+
                 });
 
             $location.url("/profile");
