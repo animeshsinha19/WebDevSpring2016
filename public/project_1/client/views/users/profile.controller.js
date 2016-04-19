@@ -13,6 +13,8 @@
 
             var newUser = $rootScope.newUser;
 
+            //console.log(newUser);
+
             vm.username = newUser.username;
             vm.password = newUser.password;
             vm.email = newUser.email;

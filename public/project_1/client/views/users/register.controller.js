@@ -28,10 +28,11 @@
                 .createUser(userBasicInfo)
                 .then(function (response) {
                     $rootScope.newUser = response.data;
-
+                    //console.log(response.data);
+                    $location.url("/profile");
                 });
 
-            $location.url("/profile");
+
 
         }
 
