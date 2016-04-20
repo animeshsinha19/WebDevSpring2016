@@ -16,7 +16,7 @@ module.exports = function (app, userModel) {
     app.get("/api/project_1/user?username=:username&password=:password", getUserByCredentials);
 
     // POST /api/project_1/user/:id
-    app.post("/api/project/user/userId/:id", updateUserById);
+    app.post("/api/project_1/user/:id", updateUserById);
 
     // DELETE /api/project_1/user/:id
     app.delete("/api/project_1/user/:id", deleteUserById);
@@ -163,7 +163,7 @@ module.exports = function (app, userModel) {
             .then(function (response) {
                 res.json(response);
             }, function (err) {
-                res.status(400).send();
+                res.status(200).send();
             });
 
 
