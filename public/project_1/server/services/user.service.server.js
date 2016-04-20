@@ -21,6 +21,12 @@ module.exports = function (app, userModel) {
     // DELETE /api/project_1/user/:id
     app.delete("/api/project_1/user/:id", deleteUserById);
 
+    // GET /api/project_1/user/userloggedIn/:loggedInUser/followId/:followId
+    app.get("/api/project_1/user/userloggedInId/:loggedInUserId/followId/:followId", followUser);
+
+    // DELETE /api/project_1/user/userloggedIn/:loggedInUser/followId/:followId
+    app.delete("/api/project_1/user/userloggedInId/:loggedInUserId/followId/:followId", unFollowUser);
+
 
     // DELETE /api/project_1/restaurant/:restaurantName/user/:userId/comment/:comment
     app.delete("/api/project_1/restaurant/:restaurantName/user/:userId/comment/:comment", deleteUserComment);
@@ -48,6 +54,31 @@ module.exports = function (app, userModel) {
 
     // DELETE /api/project_1/user/:userId/restaurant/:restaurantId
     app.delete("/api/project_1/user/:userId/restaurant/:restaurantId", deleteLikedRestaurantForUser);
+
+
+    function followUser(req, res) {
+        var loggedInUserId = req.params.loggedInUserId;
+        var followId = req.params.followId;
+
+        userModel
+            .followAnotherUser(loggedInUserId, followId)
+            .then(function (response) {
+                res.json(response);
+            });
+
+    }
+
+    function unFollowUser(req, res) {
+        var loggedInUserId = req.params.loggedInUserId;
+        var followId = req.params.followId;
+
+        userModel
+            .unFollowAnotherUser(loggedInUserId, followId)
+            .then(function (response) {
+                res.json(response);
+            });
+
+    }
 
 
     function createUser(req, res) {

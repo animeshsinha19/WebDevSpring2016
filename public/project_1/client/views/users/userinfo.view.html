@@ -44,8 +44,20 @@
 
         <div class="col-xs-4">
             <div ng-repeat="res in model.restaurants">
-                <a href="#/details/{{res}}">{{res}}</a>
-                
+                <a href="#/details/{{res.restaurantId}}">{{res.restaurantName}}</a>
+
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <div class="row" ng-show="model.userNameAndIds">
+        <div class="col-xs-2"><label>Followed Users: </label></div>
+
+        <div class="col-xs-4">
+            <div ng-repeat="user in model.userNameAndIds">
+                <a href="#/follow/{{user.userId}}">{{user.username}}</a>
+
             </div>
         </div>
 

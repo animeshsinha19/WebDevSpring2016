@@ -16,6 +16,8 @@ module.exports = function (db, mongoose) {
         deleteUserById: deleteUserById,
         updateUser: updateUser,
         updateUserWithLikedRestaurant: updateUserWithLikedRestaurant,
+        followAnotherUser: followAnotherUser,
+        unFollowAnotherUser: unFollowAnotherUser,
 
         getLikedRestaurantsForUser: getLikedRestaurantsForUser,
         setRestaurantAsLikedForUser: setRestaurantAsLikedForUser,
@@ -820,7 +822,7 @@ module.exports = function (db, mongoose) {
                                                                         }
                                                                     }
 
-                                                                    if(restaurantDeleted == 0) {
+                                                                    if (restaurantDeleted == 0) {
                                                                         deferred.resolve(doc);
                                                                     }
 
@@ -836,6 +838,105 @@ module.exports = function (db, mongoose) {
 
 
         return deferred.promise;
+    }
+
+    function followAnotherUser(loggedInUserId, followId) {
+        var deferred = q.defer();
+
+        userModel
+            .findOne(
+                {_id: loggedInUserId},
+                function (err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        var user = doc;
+
+                        if (user.follows) {
+                            user.follows.push(followId);
+                        } else {
+                            user.follows = [followId];
+                        }
+
+                        userModel
+                            .update({_id: loggedInUserId}, {$set: user},
+                                function (err, doc) {
+                                    if (err) {
+                                        deferred.reject(err);
+                                    } else {
+                                        userModel.findOne(
+                                            {_id: loggedInUserId},
+                                            function (err, doc) {
+                                                if (err) {
+                                                    deferred.reject(err);
+                                                } else {
+                                                    //console.log(doc);
+
+                                                    deferred.resolve(doc);
+                                                }
+                                            });
+
+                                    }
+
+                                });
+
+                    }
+
+                }
+            );
+
+        return deferred.promise;
+    }
+
+    function unFollowAnotherUser(loggedInUserId, followId) {
+
+        var deferred = q.defer();
+
+        userModel
+            .findOne(
+                {_id: loggedInUserId},
+                function (err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        var user = doc;
+
+                        for (var i = 0; i < user.follows.length; i++) {
+                            if(user.follows[i] == followId) {
+
+                                user.follows.splice(i,1);
+
+                                userModel
+                                    .update({_id: loggedInUserId}, {$set: user},
+                                        function (err, doc) {
+                                            if (err) {
+                                                deferred.reject(err);
+                                            } else {
+                                                userModel.findOne(
+                                                    {_id: loggedInUserId},
+                                                    function (err, doc) {
+                                                        if (err) {
+                                                            deferred.reject(err);
+                                                        } else {
+                                                            //console.log(doc);
+
+                                                            deferred.resolve(doc);
+                                                        }
+                                                    });
+
+                                            }
+
+                                        });
+
+
+                            }
+                        }
+
+                    }
+                });
+
+        return deferred.promise;
+
     }
 
 };

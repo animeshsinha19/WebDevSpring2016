@@ -61,6 +61,11 @@
                 controller: "commentController",
                 controllerAs: "model"
             })
+            .when("/follow/:id", {
+                templateUrl: "views/users/userview.view.html",
+                controller: "followController",
+                controllerAs: "model"
+            })
             //.when("/search/:title", {
             //    templateUrl: "search/search.view.html",
             //    controller: "searchController"

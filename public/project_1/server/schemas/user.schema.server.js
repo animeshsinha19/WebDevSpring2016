@@ -12,7 +12,8 @@ module.exports = function (mongoose) {
             email: String,
             roles: [String],
             likes: [restaurantSchema],
-            comments: [commentSchema]
+            comments: [commentSchema],
+            follows: [String]
         },
         {
             collection: 'prjusers'

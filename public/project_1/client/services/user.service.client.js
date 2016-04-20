@@ -12,14 +12,22 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            findUserById: findUserById
+            findUserById: findUserById,
 
-
+            followUser: followUser,
+            unFollowUser: unFollowUser
 
         };
 
         return api;
 
+        function unFollowUser(loggedInUserId, followId) {
+            return $http.delete("/api/project_1/user/userloggedInId/" + loggedInUserId + "/followId/" + followId);
+        }
+
+        function followUser(loggedInUserId, followId) {
+            return $http.get("/api/project_1/user/userloggedInId/" + loggedInUserId + "/followId/" + followId);
+        }
 
         function findUserById(userId) {
             return $http.get("/api/project_1/user/" + userId);

@@ -24,7 +24,7 @@
 
             RestaurantService
                 .getUserComments()
-                .then(function(response) {
+                .then(function (response) {
 
                     vm.allComments = [];
 
@@ -46,6 +46,8 @@
 
                                     var comments = {};
 
+                                    comments.userId = users[i]._id;
+
                                     comments.firstname = users[i].firstName;
 
                                     comments.comments = comment[k];
@@ -66,7 +68,7 @@
 
         function comment(comments) {
 
-            if(comments == "" || comments == null) {
+            if (comments == "" || comments == null) {
                 vm.error = "Please enter some text";
                 return;
             } else {
@@ -108,6 +110,8 @@
                                 for (var k = 0; k < comment.length; k++) {
 
                                     var comments = {};
+
+                                    comments.userId = users[i]._id;
 
                                     comments.firstname = users[i].firstName;
 
@@ -191,17 +195,23 @@
                 .getAllUsersByRestaurantId(yelpId)
                 .then(function (response) {
 
+                    vm.users = [];
+
                     var users = response.data;
 
                     var firstnames = [];
+                    var userIds = [];
                     for (var i = 0; i < users.length; i++) {
-                        firstnames.push(users[i].firstName);
+                        vm.users.push({
+                            firstName: users[i].firstName,
+                            userId: users[i]._id
+                        });
+
                     }
-                    vm.firstNames = firstnames;
+
 
                 });
         }
-
 
 
     }

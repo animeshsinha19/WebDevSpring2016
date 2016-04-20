@@ -4,34 +4,78 @@
         .module("ProjectApp")
         .controller("userInfoController", userInfoController);
 
-    function userInfoController(RestaurantService, $rootScope) {
+    function userInfoController(RestaurantService, $rootScope, UserService) {
 
         var vm = this;
-        vm.restaurants = [];
 
-        var newUser = $rootScope.newUser;
-        //console.log(newUser);
+        function init() {
 
-        vm.username = newUser.username;
-        vm.password = newUser.password;
-        vm.email = newUser.email;
-        vm.firstname = newUser.firstName;
-        vm.lastname = newUser.lastName;
+            vm.restaurants = [];
 
-        RestaurantService
-            .getLikedRestaurantsForUser($rootScope.newUser._id)
-            .then(function (response) {
-                getRestaurantDetails(response.data);
-            });
+            var newUser = $rootScope.newUser;
+            //console.log(newUser);
+
+            vm.username = newUser.username;
+            vm.password = newUser.password;
+            vm.email = newUser.email;
+            vm.firstname = newUser.firstName;
+            vm.lastname = newUser.lastName;
+
+            //vm.userNameAndIds = [];
+            if(vm.userNameAndIds) {
+                delete vm.userNameAndIds;
+            }
+
+            if (newUser.follows.length != 0)
+                vm.userNameAndIds = getFollowedUser(newUser.follows);
+
+            RestaurantService
+                .getLikedRestaurantsForUser($rootScope.newUser._id)
+                .then(function (response) {
+                    getRestaurantDetails(response.data);
+                });
+
+        }
+
+        init();
+
+        function getFollowedUser(followIds) {
+            var userIdAndNames = [];
+
+            for (var i = 0; i < followIds.length; i++) {
+                UserService
+                    .findUserById(followIds[i])
+                    .then(function (response) {
+
+                        var user = response.data;
+
+                        if (user.firstName != "") {
+                            userIdAndNames.push({
+                                userId: user._id,
+                                username: user.firstName + " " + user.lastName
+                            });
+
+                        } else {
+                            userIdAndNames.push({
+                                userId: user._id,
+                                username: user.username
+                            });
+                        }
+
+                    });
+            }
+
+            return userIdAndNames;
+        }
 
         function getRestaurantDetails(restaurants) {
-            // just get the restaurant IDs for now
-
-            //vm.restaurants
 
             if (restaurants) {
                 for (var i = 0; i < restaurants.length; i++) {
-                    vm.restaurants.push(restaurants[i].yelpID);
+                    vm.restaurants.push({
+                        restaurantId: restaurants[i].yelpID,
+                        restaurantName: restaurants[i].name
+                    });
 
                 }
             }
