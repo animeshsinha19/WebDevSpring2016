@@ -46,7 +46,7 @@
                 .then(function (response) {
                     $rootScope.newUser = response.data;
                     //console.log(response);
-                    //console.log($rootScope.newUser);
+                    console.log($rootScope.newUser);
                 });
 
             $location.url("/home");

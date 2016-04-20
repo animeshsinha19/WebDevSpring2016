@@ -19,7 +19,11 @@
             var userBasicInfo = {
                 username: user.username,
                 password: user.userpass,
-                email: user.useremail
+                email: user.useremail,
+                roles: [],
+                likes: [],
+                comments: [],
+                follows: []
             };
 
 
