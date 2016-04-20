@@ -209,22 +209,34 @@ module.exports = function (db, mongoose) {
         var deferred = q.defer();
 
         userModel
-            .update({_id: userId}, {$set: user}, function (err, doc) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
+            .update({_id: userId},
+                {
+                    username: user.username,
+                    password: user.password,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    roles: user.roles,
+                    likes: user.likes,
+                    comments: user.comments,
+                    follows: user.follows
+                },
+                function (err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
 
-                    userModel.findOne({_id: userId}, function (err, doc) {
-                        if (err) {
-                            deferred.reject(err);
-                        } else {
-                            deferred.resolve(doc);
-                        }
-                    });
+                        userModel.findOne({_id: userId}, function (err, doc) {
+                            if (err) {
+                                deferred.reject(err);
+                            } else {
+                                deferred.resolve(doc);
+                            }
+                        });
 
-                }
+                    }
 
-            });
+                });
 
         return deferred.promise;
 
@@ -902,9 +914,9 @@ module.exports = function (db, mongoose) {
                         var user = doc;
 
                         for (var i = 0; i < user.follows.length; i++) {
-                            if(user.follows[i] == followId) {
+                            if (user.follows[i] == followId) {
 
-                                user.follows.splice(i,1);
+                                user.follows.splice(i, 1);
 
                                 userModel
                                     .update({_id: loggedInUserId}, {$set: user},
