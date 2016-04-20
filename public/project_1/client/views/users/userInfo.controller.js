@@ -22,12 +22,15 @@
             vm.lastname = newUser.lastName;
 
             //vm.userNameAndIds = [];
-            if(vm.userNameAndIds) {
+            if (vm.userNameAndIds) {
                 delete vm.userNameAndIds;
             }
 
-            if (newUser.follows.length != 0)
-                vm.userNameAndIds = getFollowedUser(newUser.follows);
+            if (newUser.follows) {
+                if (newUser.follows.length != 0)
+                    vm.userNameAndIds = getFollowedUser(newUser.follows);
+            }
+
 
             RestaurantService
                 .getLikedRestaurantsForUser($rootScope.newUser._id)
