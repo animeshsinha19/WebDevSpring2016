@@ -163,7 +163,7 @@ module.exports = function (app, userModel) {
             .then(function (response) {
                 res.json(response);
             }, function (err) {
-                res.status(200).send();
+                res.status(200).send("check");
             });
 
 
