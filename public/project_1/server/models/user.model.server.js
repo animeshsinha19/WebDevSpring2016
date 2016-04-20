@@ -450,29 +450,53 @@ module.exports = function (db, mongoose) {
                         if (flag == 0) {
                             user.likes.push(newRestaurant);
                             userModel
-                                .update({_id: userId}, {$set: user}, function (err, doc) {
-                                    if (err) {
-                                        deferred.reject(err);
-                                    } else {
+                                .update({_id: userId},
+                                    {
+                                        username: user.username,
+                                        password: user.password,
+                                        firstName: user.firstName,
+                                        lastName: user.lastName,
+                                        email: user.email,
+                                        roles: user.roles,
+                                        likes: user.likes,
+                                        comments: user.comments,
+                                        follows: user.follows
+                                    },
+                                    function (err, doc) {
+                                        if (err) {
+                                            deferred.reject(err);
+                                        } else {
 
-                                        userModel.findOne({_id: userId}, function (err, doc) {
-                                            if (err) {
-                                                deferred.reject(err);
-                                            } else {
-                                                deferred.resolve(doc);
-                                            }
-                                        });
+                                            userModel.findOne({_id: userId}, function (err, doc) {
+                                                if (err) {
+                                                    deferred.reject(err);
+                                                } else {
+                                                    deferred.resolve(doc);
+                                                }
+                                            });
 
-                                    }
+                                        }
 
-                                });
+                                    });
 
                         }
 
                     } else {
                         user.likes = [newRestaurant];
                         userModel
-                            .update({_id: userId}, {$set: user}, function (err, doc) {
+                            .update({_id: userId},
+                                {
+                                    username: user.username,
+                                    password: user.password,
+                                    firstName: user.firstName,
+                                    lastName: user.lastName,
+                                    email: user.email,
+                                    roles: user.roles,
+                                    likes: user.likes,
+                                    comments: user.comments,
+                                    follows: user.follows
+                                },
+                                function (err, doc) {
                                 if (err) {
                                     deferred.reject(err);
                                 } else {
@@ -871,7 +895,18 @@ module.exports = function (db, mongoose) {
                         }
 
                         userModel
-                            .update({_id: loggedInUserId}, {$set: user},
+                            .update({_id: loggedInUserId},
+                                {
+                                    username: user.username,
+                                    password: user.password,
+                                    firstName: user.firstName,
+                                    lastName: user.lastName,
+                                    email: user.email,
+                                    roles: user.roles,
+                                    likes: user.likes,
+                                    comments: user.comments,
+                                    follows: user.follows
+                                },
                                 function (err, doc) {
                                     if (err) {
                                         deferred.reject(err);
@@ -919,7 +954,18 @@ module.exports = function (db, mongoose) {
                                 user.follows.splice(i, 1);
 
                                 userModel
-                                    .update({_id: loggedInUserId}, {$set: user},
+                                    .update({_id: loggedInUserId},
+                                        {
+                                            username: user.username,
+                                            password: user.password,
+                                            firstName: user.firstName,
+                                            lastName: user.lastName,
+                                            email: user.email,
+                                            roles: user.roles,
+                                            likes: user.likes,
+                                            comments: user.comments,
+                                            follows: user.follows
+                                        },
                                         function (err, doc) {
                                             if (err) {
                                                 deferred.reject(err);
