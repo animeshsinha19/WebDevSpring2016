@@ -15,8 +15,8 @@ module.exports = function (app, userModel) {
     // GET /api/project_1/user?username=:username&password=:password
     app.get("/api/project_1/user?username=:username&password=:password", getUserByCredentials);
 
-    // PUT /api/project_1/user/:id
-    app.put("/api/project_1/user/:id", updateUserById);
+    // POST /api/project_1/user/:id
+    app.post("/api/project_1/user/:id", updateUserById);
 
     // DELETE /api/project_1/user/:id
     app.delete("/api/project_1/user/:id", deleteUserById);

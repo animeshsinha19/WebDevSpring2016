@@ -54,7 +54,7 @@
 
         function updateUser(userId, user) {
 
-            return $http.put("/api/project_1/user/" + userId, user);
+            return $http.post("/api/project_1/user/" + userId, user);
 
         }
 

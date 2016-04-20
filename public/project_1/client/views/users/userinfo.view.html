@@ -36,9 +36,7 @@
         </div>
 
     </div>
-
     <br>
-
     <div class="row">
         <div class="col-xs-2"><label>Liked Restaurants</label></div>
 
@@ -53,14 +51,12 @@
     <br>
     <div class="row" ng-show="model.userNameAndIds">
         <div class="col-xs-2"><label>Followed Users: </label></div>
-
         <div class="col-xs-4">
             <div ng-repeat="user in model.userNameAndIds">
                 <a href="#/follow/{{user.userId}}">{{user.username}}</a>
 
             </div>
         </div>
-
     </div>
 
 </form>
