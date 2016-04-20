@@ -20,7 +20,7 @@
                 username: user.username,
                 password: user.userpass,
                 email: user.useremail,
-                roles: [],
+                roles: ['normal'],
                 likes: [],
                 comments: [],
                 follows: []

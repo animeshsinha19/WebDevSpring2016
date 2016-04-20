@@ -36,28 +36,33 @@
 
                         var commentObj = users[i].comments;
 
-                        for (var j = 0; j < commentObj.length; j++) {
+                        if(commentObj != null) {
 
-                            if (commentObj[j].restaurant.yelpID == yelpId) {
+                            for (var j = 0; j < commentObj.length; j++) {
 
-                                var comment = commentObj[j].comments;
+                                if (commentObj[j].restaurant.yelpID == yelpId) {
 
-                                for (var k = 0; k < comment.length; k++) {
+                                    var comment = commentObj[j].comments;
 
-                                    var comments = {};
+                                    for (var k = 0; k < comment.length; k++) {
 
-                                    comments.userId = users[i]._id;
+                                        var comments = {};
 
-                                    comments.firstname = users[i].firstName;
+                                        comments.userId = users[i]._id;
 
-                                    comments.comments = comment[k];
+                                        comments.firstname = users[i].firstName;
 
-                                    commentsOnRestaurant.push(comments);
+                                        comments.comments = comment[k];
+
+                                        commentsOnRestaurant.push(comments);
+
+                                    }
 
                                 }
-
                             }
                         }
+
+
 
                     }
 
