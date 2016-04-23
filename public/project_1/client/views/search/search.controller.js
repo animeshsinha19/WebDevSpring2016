@@ -11,18 +11,29 @@
         function init() {
             vm.search = search;
 
+            if (vm.error)
+                delete vm.error;
+
             if (vm.location) {
                 search(vm.location.place);
             }
 
         }
+
         init();
 
 
         function search(location) {
             //$rootScope.restaurantName = restaurant;
             //console.log(location.place);
-            $location.url("/results/" + location.place);
+            if (location) {
+                $location.url("/results/" + location.place);
+            } else {
+                vm.error = "Please enter a location, e.g. a city, like Boston";
+                return;
+            }
+
+
         }
 
 

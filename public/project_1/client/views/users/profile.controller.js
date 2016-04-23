@@ -21,12 +21,43 @@
             vm.firstname = newUser.firstName;
             vm.lastname = newUser.lastName;
 
+            if(vm.firstnameerror) {
+                delete vm.firstnameerror;
+            }
+            if(vm.lastnameerror) {
+                delete vm.lastnameerror;
+            }
+
         }
 
         init();
 
+        function verifyFirstLastName(user) {
+
+            var flag = 1;
+
+            if (!user.firstname) {
+                vm.firstnameerror = "Please update first name";
+                flag = 0;
+            } else {
+                delete vm.firstnameerror;
+            }
+
+            if (!user.lastname) {
+                vm.lastnameerror = "Please update last name";
+                flag = 0;
+            } else {
+                delete vm.lastnameerror;
+            }
+
+            return flag;
+        }
 
         function update(user) {
+
+            if (verifyFirstLastName(user) != 1)
+                return;
+
 
             var updatedUser = {
                 "_id": $rootScope.newUser._id,
