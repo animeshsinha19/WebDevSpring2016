@@ -66,7 +66,7 @@
                     // User is Authenticated
 
                     if (user !== '0' && user[0].roles.indexOf('admin') != -1) {
-                        $rootScope.currentUser = user;
+                        $rootScope.newUser = user;
                         deferred.resolve();
                     }
                     else {
@@ -89,7 +89,7 @@
                     $rootScope.errorMessage = null;
                     // User is Authenticated
                     if (user !== '0') {
-                        $rootScope.currentUser = user;
+                        $rootScope.newUser = user;
                         deferred.resolve();
                     }
                     // User is Not Authenticated
@@ -112,7 +112,7 @@
                     $rootScope.errorMessage = null;
                     // User is Authenticated
                     if (user !== '0') {
-                        $rootScope.currentUser = user;
+                        $rootScope.newUser = user;
                     }
                     deferred.resolve();
                 });

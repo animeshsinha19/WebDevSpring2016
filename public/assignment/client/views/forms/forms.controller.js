@@ -17,7 +17,7 @@
 
             if ($rootScope.newUser) {
                 FormService
-                    .findAllFormsForUser($rootScope.newUser._id)
+                    .findAllFormsForUser($rootScope.newUser[0]._id)
                     .then(function (response) {
                         vm.forms = response.data;
                         //console.log(vm.forms);
@@ -32,7 +32,7 @@
         function addForm() {
             var form = {
                 "title": vm.formname,
-                "userId": $rootScope.newUser._id
+                "userId": $rootScope.newUser[0]._id
             };
             if (form.title)
                 FormService

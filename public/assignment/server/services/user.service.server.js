@@ -1,5 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require("bcrypt-nodejs");
+
 
 module.exports = function (app, userModel) {
 
@@ -24,7 +26,7 @@ module.exports = function (app, userModel) {
     app.get("/api/assignment/user?username=:username&password=:password", getUserByCredentials);
 
     // PUT /api/assignment/user/:id
-    app.put("/api/assignment/user/:id", adminAuth, updateUserById);
+    app.put("/api/assignment/user/:id", auth, updateUserById);
 
     // DELETE /api/assignment/user/:id
     app.delete("/api/assignment/user/:id", adminAuth, deleteUserById);
@@ -49,16 +51,17 @@ module.exports = function (app, userModel) {
 
     function localStrategy(username, password, done) {
         userModel
-            .findUserByCredentials(username, password)
+            .findUserByUsername(username)
             .then(
                 function (user) {
 
-                    if (!user) {
-
-                        return done(null, false);
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        return done(null, user);
+                    } else {
+                        return done(null, user);
                     }
 
-                    return done(null, user);
+
                 },
                 function (err) {
                     if (err) {
@@ -130,7 +133,7 @@ module.exports = function (app, userModel) {
                         //console.log(user);
                         res.json(null);
                     } else {
-
+                        newUser.password = bcrypt.hashSync(newUser.password);
                         return userModel.createUser(newUser)
                     }
                 },

@@ -23,7 +23,7 @@
 
                         // find and push all users except the current logged in admin user
                         for (var i = 0; i < allUsers.length; i++) {
-                            if (allUsers[i].username != $rootScope.newUser.username) {
+                            if (allUsers[i].username != $rootScope.newUser[0].username) {
                                 userlist.push(allUsers[i]);
                             }
                         }
@@ -142,7 +142,7 @@
 
                                     // find and push all users except the current logged in admin user
                                     for (var i = 0; i < allUsers.length; i++) {
-                                        if (allUsers[i].username != $rootScope.newUser.username) {
+                                        if (allUsers[i].username != $rootScope.newUser[0].username) {
                                             userlist.push(allUsers[i]);
                                         }
                                     }
@@ -211,7 +211,7 @@
 
                                     // find and push all users except the current logged in admin user
                                     for (var i = 0; i < allUsers.length; i++) {
-                                        if (allUsers[i].username != $rootScope.newUser.username) {
+                                        if (allUsers[i].username != $rootScope.newUser[0].username) {
                                             userlist.push(allUsers[i]);
                                         }
                                     }
@@ -328,7 +328,7 @@
 
                                         // find and push all users except the current logged in admin user
                                         for (var i = 0; i < allUsers.length; i++) {
-                                            if (allUsers[i].username != $rootScope.newUser.username) {
+                                            if (allUsers[i].username != $rootScope.newUser[0].username) {
                                                 userlist.push(allUsers[i]);
                                             }
                                         }
@@ -364,7 +364,7 @@
 
                                         // find and push all users except the current logged in admin user
                                         for (var i = 0; i < allUsers.length; i++) {
-                                            if (allUsers[i].username != $rootScope.newUser.username) {
+                                            if (allUsers[i].username != $rootScope.newUser[0].username) {
                                                 userlist.push(allUsers[i]);
                                             }
                                         }

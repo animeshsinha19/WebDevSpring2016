@@ -12,7 +12,7 @@
 
             vm.update = update;
 
-            var newUser = $rootScope.newUser;
+            var newUser = $rootScope.newUser[0];
             //console.log(newUser);
             //console.log($rootScope.newUser._id);
             vm.username = newUser.username;
@@ -37,12 +37,12 @@
             //console.log("controller");
             UserService
                 .updateUser(
-                    $rootScope.newUser._id,
+                    $rootScope.newUser[0]._id,
                     updatedUser)
                 .then(function (response) {
 
                     //console.log("inside then");
-                    $rootScope.newUser = response.data[0];
+                    $rootScope.newUser[0] = response.data[0];
                     //console.log(response.data[0]);
                 });
 
