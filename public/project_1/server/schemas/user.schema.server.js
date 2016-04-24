@@ -10,10 +10,22 @@ module.exports = function (mongoose) {
             firstName: String,
             lastName: String,
             email: String,
-            roles: [String],
-            likes: [restaurantSchema],
-            comments: [commentSchema],
-            follows: [String]
+            roles: {
+                type: [String],
+                default: ['normal']
+            },
+            likes: {
+                type: [restaurantSchema],
+                default: []
+            },
+            comments: {
+                type: [commentSchema],
+                default: []
+            },
+            follows: {
+                type: [String],
+                default: []
+            }
         },
         {
             collection: 'prjusers'

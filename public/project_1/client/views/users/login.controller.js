@@ -16,10 +16,11 @@
         function login(user) {
             var loggedUser;
             UserService
-                .findUserByCredentials(
-                    user.username,
-                    user.password
-                )
+                //.findUserByCredentials(
+                //    user.username,
+                //    user.password
+                //)
+                .login(user)
                 .then(function (response) {
                     loggedUser = response.data;
                     //console.log(loggedUser);

@@ -11,6 +11,7 @@ module.exports = function (db, mongoose) {
     var api = {
         findUserByCredentials: findUserByCredentials,
         findUserById: findUserById,
+        findUserByUsername: findUserByUsername,
         findAllUsers: findAllUsers,
         createUser: createUser,
         deleteUserById: deleteUserById,
@@ -32,6 +33,22 @@ module.exports = function (db, mongoose) {
 
     return api;
 
+    function findUserByUsername(username) {
+        var deferred = q.defer();
+
+        userModel
+            .findOne({
+                username: username
+            }, function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            });
+
+        return deferred.promise;
+    }
 
     function findUserById(userId) {
         var deferred = q.defer();

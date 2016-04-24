@@ -21,10 +21,10 @@
             vm.firstname = newUser.firstName;
             vm.lastname = newUser.lastName;
 
-            if(vm.firstnameerror) {
+            if (vm.firstnameerror) {
                 delete vm.firstnameerror;
             }
-            if(vm.lastnameerror) {
+            if (vm.lastnameerror) {
                 delete vm.lastnameerror;
             }
 
@@ -65,7 +65,11 @@
                 "password": user.password,
                 "email": user.email,
                 "firstName": user.firstname,
-                "lastName": user.lastname
+                "lastName": user.lastname,
+                "likes": $rootScope.newUser.likes,
+                "comments": $rootScope.newUser.comments,
+                "follows": $rootScope.newUser.follows,
+                "roles": $rootScope.newUser.roles
             };
 
 
@@ -77,7 +81,7 @@
                 .then(function (response) {
                     $rootScope.newUser = response.data;
                     //console.log(response);
-                    console.log($rootScope.newUser);
+                    //console.log($rootScope.newUser);
                 });
 
             $location.url("/home");

@@ -97,9 +97,11 @@
                 follows: []
             };
 
+            //console.log(userBasicInfo);
 
             UserService
-                .createUser(userBasicInfo)
+                //.createUser(userBasicInfo)
+                .register(userBasicInfo)
                 .then(function (response) {
                     $rootScope.newUser = response.data;
                     //console.log(response.data);

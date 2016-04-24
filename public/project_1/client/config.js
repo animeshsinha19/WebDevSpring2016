@@ -11,7 +11,10 @@
             .when("/search", {
                 templateUrl: "views/search/search.view.html",
                 controller: "searchController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    loggedin: checkCurrentUser
+                }
             })
             .when("/maps", {
                 templateUrl: "views/search/maps.view.html",
@@ -39,7 +42,10 @@
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
                 controller: "profileController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    loggedin: checkLoggedin
+                }
             })
             .when("/userinfo", {
                 templateUrl: "views/users/userinfo.view.html",
@@ -54,7 +60,10 @@
             .when("/admin", {
                 templateUrl: "views/admin/admin.view.html",
                 controller: "adminController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    loggedin: checkAdmin
+                }
             })
             .when("/comments/:id", {
                 templateUrl: "views/admin/deletecomment.view.html",
@@ -78,4 +87,69 @@
                 redirectTo: "/search"
             });
     }
+
+    var checkAdmin = function ($q, $timeout, $http, $location, $rootScope) {
+        var deferred = $q.defer();
+
+        $http.get('/api/project_1/loggedin')
+            .success(
+                function (user) {
+                    $rootScope.errorMessage = null;
+                    // User is Authenticated
+
+                    if (user !== '0' && user.roles.indexOf('admin') != -1) {
+                        $rootScope.newUser = user;
+                        deferred.resolve();
+                    }
+                    else {
+                        $rootScope.errorMessage = 'You need to log in.';
+                        deferred.reject();
+                        $location.url('/login');
+                    }
+                });
+
+        return deferred.promise;
+    };
+
+
+    var checkLoggedin = function ($q, $timeout, $http, $location, $rootScope) {
+        var deferred = $q.defer();
+
+        $http.get('/api/project_1/loggedin')
+            .success(
+                function (user) {
+                    $rootScope.errorMessage = null;
+                    // User is Authenticated
+                    if (user !== '0') {
+                        $rootScope.newUser = user;
+                        deferred.resolve();
+                    }
+                    // User is Not Authenticated
+                    else {
+                        $rootScope.errorMessage = 'You need to log in.';
+                        deferred.reject();
+                        $location.url('/login');
+                    }
+                });
+
+        return deferred.promise;
+    };
+
+    var checkCurrentUser = function ($q, $timeout, $http, $location, $rootScope) {
+        var deferred = $q.defer();
+
+        $http.get('/api/project_1/loggedin')
+            .success(
+                function (user) {
+                    $rootScope.errorMessage = null;
+                    // User is Authenticated
+                    if (user !== '0') {
+                        $rootScope.newUser = user;
+                    }
+                    deferred.resolve();
+                });
+
+        return deferred.promise;
+    };
+
 })();

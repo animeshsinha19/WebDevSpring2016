@@ -1,13 +1,21 @@
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require("bcrypt-nodejs");
+
 module.exports = function (app, userModel) {
+
+    var auth = authenticated;
+    var adminAuth = isAdmin;
+    var loginUser;
 
     // POST /api/project_1/user
     app.post("/api/project_1/user", createUser);
 
     // GET /api/project_1/user
-    app.get("/api/project_1/user", getAllUsers);
+    app.get("/api/project_1/user", adminAuth, getAllUsers);
 
     // GET /api/project_1/user/:id
-    app.get("/api/project_1/user/:id", getUserById);
+    app.get("/api/project_1/user/:id", adminAuth, getUserById);
 
     // GET /api/project_1/user?username=:username
     app.get("/api/project_1/user?username=:username", getUserByUsername);
@@ -16,10 +24,10 @@ module.exports = function (app, userModel) {
     app.get("/api/project_1/user?username=:username&password=:password", getUserByCredentials);
 
     // PUT /api/project_1/user/:id
-    app.put("/api/project_1/user/:id", updateUserById);
+    app.put("/api/project_1/user/:id", auth, updateUserById);
 
     // DELETE /api/project_1/user/:id
-    app.delete("/api/project_1/user/:id", deleteUserById);
+    app.delete("/api/project_1/user/:id", adminAuth, deleteUserById);
 
     // GET /api/project_1/user/userloggedIn/:loggedInUser/followId/:followId
     app.get("/api/project_1/user/userloggedInId/:loggedInUserId/followId/:followId", followUser);
@@ -27,6 +35,20 @@ module.exports = function (app, userModel) {
     // DELETE /api/project_1/user/userloggedIn/:loggedInUser/followId/:followId
     app.delete("/api/project_1/user/userloggedInId/:loggedInUserId/followId/:followId", unFollowUser);
 
+    // POST /api/project_1/login
+    app.post("/api/project_1/login", passport.authenticate('local'), login);
+
+    // POST /api/project_1/logout
+    app.post("/api/project_1/logout", logout);
+
+    // POST /api/project_1/register
+    app.post("/api/project_1/register", register);
+
+    //GET /api/project_1/loggedin
+    app.get("/api/project_1/loggedin", loggedin);
+
+
+    // RESTAURANT
 
     // DELETE /api/project_1/restaurant/:restaurantName/user/:userId/comment/:comment
     app.delete("/api/project_1/restaurant/:restaurantName/user/:userId/comment/:comment", deleteUserComment);
@@ -54,6 +76,137 @@ module.exports = function (app, userModel) {
 
     // DELETE /api/project_1/user/:userId/restaurant/:restaurantId
     app.delete("/api/project_1/user/:userId/restaurant/:restaurantId", deleteLikedRestaurantForUser);
+
+
+    passport.use(new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+
+    function localStrategy(username, password, done) {
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function (user) {
+
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        return done(null, user);
+                    } else {
+                        return done(null, user);
+                    }
+
+
+                },
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            );
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(
+                function (user) {
+                    done(null, user);
+                },
+                function (err) {
+                    done(err, null);
+                }
+            );
+    }
+
+    function loggedin(req, res) {
+        res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
+    function authenticated(req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            res.send(401);
+        }
+    }
+
+    function isAdmin(req, res, next) {
+
+        if (req.isAuthenticated()) {
+            if (loginUser.roles.indexOf('admin') > -1) {
+                next();
+            }
+        } else {
+            res.send(403);
+        }
+
+
+    }
+
+    function register(req, res) {
+        var newUser = req.body;
+        //if (newUser.roles) {
+        //    if (newUser.roles.indexOf('normal') < 0) {
+        //        newUser.roles.push('normal');
+        //    }
+        //
+        //} else {
+
+        //newUser.roles = ['normal'];
+        //
+        //console.log(newUser);
+        //}
+
+
+        userModel
+            .findUserByUsername(newUser.username)
+            .then(
+                function (user) {
+                    if (user) {
+                        //console.log(user);
+                        res.json(null);
+                    } else {
+                        newUser.password = bcrypt.hashSync(newUser.password);
+                        return userModel.createUser(newUser);
+                    }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (user) {
+                    if (user) {
+                        req.login(
+                            user,
+                            function (err) {
+                                if (err) {
+                                    res.status(400).send(err);
+                                } else {
+                                    res.json(user);
+                                }
+                            });
+                    }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function login(req, res) {
+        loginUser = req.user;
+        res.json(req.user);
+    }
+
+    function logout(req, res) {
+        req.logOut();
+        res.send(200);
+    }
 
 
     function followUser(req, res) {

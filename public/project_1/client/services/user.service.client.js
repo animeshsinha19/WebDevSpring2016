@@ -7,6 +7,10 @@
     function UserService($http) {
 
         var api = {
+            login: login,
+            logout: logout,
+            register: register,
+
             findUserByCredentials: findUserByCredentials,
             findAllUsers: findAllUsers,
             createUser: createUser,
@@ -20,6 +24,18 @@
         };
 
         return api;
+
+        function register(user) {
+            return $http.post("/api/project_1/register", user);
+        }
+
+        function logout() {
+            return $http.post("/api/project_1/logout");
+        }
+
+        function login(user) {
+            return $http.post("/api/project_1/login", user);
+        }
 
         function unFollowUser(loggedInUserId, followId) {
             return $http.delete("/api/project_1/user/userloggedInId/" + loggedInUserId + "/followId/" + followId);
