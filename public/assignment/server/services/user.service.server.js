@@ -10,6 +10,26 @@ module.exports = function (app, userModel) {
     var loginUser;
 
 
+    // ADMIN APIs
+
+    // POST /api/assignment/admin/user
+    app.post("/api/assignment/admin/user", adminAuth, adminCreateUser);
+
+    // GET /api/assignment/admin/user
+    app.get("/api/assignment/admin/user", adminAuth, adminGetAllUsers);
+
+    // GET /api/assignment/admin/user/:userId
+    app.get("/api/assignment/admin/user/:userId", adminAuth, adminGetUserById);
+
+    // DELETE /api/assignment/admin/user/:userId
+    app.delete("/api/assignment/admin/user/:userId", adminAuth, adminDeleteUserById);
+
+    // PUT /api/assignment/admin/user/:userId
+    app.put("/api/assignment/admin/user/:userId", adminAuth, adminUpdateUserById);
+
+
+    //USER APIs
+
     // POST /api/assignment/user
     app.post("/api/assignment/user", createUser);
 
@@ -259,5 +279,60 @@ module.exports = function (app, userModel) {
                     res.json(response);
                 });
 
+    }
+
+    function adminCreateUser(req, res) {
+        var user = req.body;
+
+        userModel
+            .createUser(user)
+            .then(function (response) {
+                res.json(response);
+            });
+    }
+
+    function adminGetAllUsers(req, res) {
+        userModel
+            .findAllUsers()
+            .then(
+                function (response) {
+                    res.json(response);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                });
+    }
+
+    function adminGetUserById(req, res) {
+        var userId = req.params.id;
+        userModel
+            .findUserById(userId)
+            .then(function (response) {
+                res.json(response);
+            });
+    }
+
+    function adminDeleteUserById(req, res) {
+        var userId = req.params.id;
+        userModel
+            .deleteUserById(userId)
+            .then(
+                function (response) {
+                    res.json(response);
+                });
+    }
+
+    function adminUpdateUserById(req, res) {
+        var userId = req.params.id;
+        var user = req.body;
+
+        userModel
+            .updateUser(userId, user)
+            .then(function (response) {
+                    res.json(response);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                });
     }
 };
