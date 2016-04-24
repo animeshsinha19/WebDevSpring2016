@@ -9,7 +9,7 @@
                 <span ng-show="model.sortedBy == 'username'">
                             <span ng-show="!model.ordered" class="glyphicon glyphicon-triangle-top"
                                   aria-hidden="true"></span>
-                            <span ng-show="model.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span></span>
+                            <span ng-show="model.ordered" class="glyphicon glyphicon-triangle-bottom"></span></span>
                 Username
             </th>
             <th class="col-xs-2 no-wrap"> Password</th>
@@ -17,14 +17,14 @@
                     ng-show="model.sortedBy == 'firstName'">
                             <span ng-show="!model.ordered" class="glyphicon glyphicon-triangle-top"
                                   aria-hidden="true"></span>
-                            <span ng-show="model.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span></span>
+                            <span ng-show="model.ordered" class="glyphicon glyphicon-triangle-bottom"></span></span>
                 First Name
             </th>
             <th class="col-xs-2 no-wrap" ng-click="model.sortedBy='lastName' ; model.ordered=!model.ordered">
                 <span ng-show="model.sortedBy == 'lastName'">
                             <span ng-show="!model.ordered" class="glyphicon glyphicon-triangle-top"
                                   aria-hidden="true"></span>
-                            <span ng-show="model.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span></span>
+                            <span ng-show="model.ordered" class="glyphicon glyphicon-triangle-bottom"></span></span>
                 Last Name
             </th>
             <th class="col-xs-2 no-wrap">Role</th>
